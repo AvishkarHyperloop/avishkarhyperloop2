@@ -91,7 +91,7 @@ function TechSlide({
   total,
   progress,
 }: {
-  item: any;
+  item: typeof TECH_DATA[number];
   index: number;
   total: number;
   progress: MotionValue<number>;
