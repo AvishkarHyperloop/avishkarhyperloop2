@@ -36,7 +36,7 @@ export default function Hero() {
 
   return (
     <div className="w-full relative z-10">
-      <section className="h-screen w-full flex items-center relative px-6 md:px-12 lg:px-24 overflow-hidden bg-black">
+      <section className="min-h-screen w-full flex items-start md:items-center pt-32 md:pt-0 relative px-6 md:px-12 lg:px-24 overflow-hidden bg-black">
         {/* Background Video */}
         <div className="absolute inset-0 z-0 w-full h-full">
           <video
@@ -64,18 +64,18 @@ export default function Hero() {
 
         {/* Content */}
         <div
-          className="text-left space-y-6 z-10 max-w-2xl mt-12 md:mt-0 will-change-transform pointer-events-none relative"
+          className="flex flex-col items-center md:items-start text-center md:text-left space-y-4 md:space-y-6 z-10 max-w-2xl will-change-transform relative"
           style={heroStyle}
         >
           <div className="flex items-center gap-4">
-            <span className="text-green-500 text-[10px] md:text-xs font-tech tracking-[0.4em] uppercase opacity-90 animate-pulse">
+            <span className="text-green-500 text-[clamp(0.625rem,0.5rem+0.51vw,0.75rem)] font-tech tracking-[0.4em] uppercase opacity-90 animate-pulse">
               Welcome to the Future
             </span>
           </div>
 
           <div className="w-24 h-[2px] bg-gradient-to-r from-green-500 to-green-300 shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
 
-          <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-bold font-tech tracking-tighter text-white leading-[0.85] drop-shadow-2xl">
+          <h1 className="text-[clamp(2.5rem,0.9rem+6.7vw,7rem)] font-bold font-tech tracking-tighter text-white leading-[0.85] drop-shadow-2xl">
             HYPERLOOP
             <br />
             <span className="font-light">
@@ -86,13 +86,13 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="max-w-md text-gray-300 font-light text-sm md:text-base leading-relaxed pt-4 border-l-2 border-green-500/50 pl-6 backdrop-blur-sm bg-black/10">
+          <p className="max-w-md text-gray-300 font-light text-[clamp(0.875rem,0.75rem+0.51vw,1rem)] leading-relaxed p-4 backdrop-blur-sm bg-black/10 rounded-lg">
             Pioneering the fifth mode of transport. Avishkar Hyperloop is
             building a sustainable, high-speed future for global connectivity.
           </p>
 
-          <div className="pt-6 pointer-events-auto">
-            <button className="group relative px-8 py-4 bg-green-600/10 border border-green-500 text-white font-bold font-tech text-sm tracking-widest overflow-hidden transition-all hover:bg-green-500 hover:text-black hover:shadow-[0_0_20px_rgba(34,197,94,0.4)]">
+          <div className="pt-6">
+            <button className="group relative px-6 py-3 md:px-8 md:py-4 bg-green-600/10 border border-green-500 text-white font-bold font-tech text-[clamp(0.75rem,0.63rem+0.51vw,0.875rem)] tracking-widest overflow-hidden transition-all hover:bg-green-500 hover:text-black hover:shadow-[0_0_20px_rgba(34,197,94,0.4)]">
               <span className="relative z-10 flex items-center gap-2">
                 DISCOVER OUR POD
                 <ChevronRight

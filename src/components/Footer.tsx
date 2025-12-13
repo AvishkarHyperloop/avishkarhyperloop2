@@ -35,7 +35,7 @@ export const Footer: React.FC = () => {
             <span className="text-green-500 font-tech tracking-[0.5em] text-xs uppercase block mb-4 animate-pulse">
               Stay Updated
             </span>
-            <h2 className="text-5xl md:text-7xl font-tech font-bold text-white leading-[0.9] tracking-tighter">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-tech font-bold text-white leading-tight md:leading-[0.9] tracking-tighter">
               JOIN THE<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">
                 REVOLUTION
@@ -44,22 +44,27 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="lg:pl-12">
-            <p className="text-gray-400 mb-6 max-w-md">
-              Subscribe to our newsletter for the latest updates on tests, pod reveals, and recruitment drives.
-            </p>
-            <div className="flex gap-2 max-w-md relative group">
-              <div className="absolute inset-0 bg-green-500/20 blur-lg rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-white focus:outline-none focus:border-green-500 transition-colors relative z-10 font-tech tracking-wider"
-              />
-              <button className="bg-green-600 text-black px-6 py-4 rounded-lg font-bold hover:bg-green-500 transition-colors relative z-10">
-                <ArrowRight size={20} />
-              </button>
-            </div>
+            <h4 className="text-white font-tech font-bold text-lg mb-4">LATEST UPDATES</h4>
+            <ul className="space-y-4 text-gray-400 text-sm max-w-md">
+              <li>
+                <a href="#" className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors">
+                  <span className="">Pod prototype unveiled — Sep 2025</span>
+                  <ArrowRight size={16} />
+                </a>
+              </li>
+              <li>
+                <a href="#" className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors">
+                  <span className="">Infrastructure plan published — Jul 2025</span>
+                  <ArrowRight size={16} />
+                </a>
+              </li>
+              <li>
+                <a href="#" className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors">
+                  <span className="">Open roles: Apply now</span>
+                  <ArrowRight size={16} />
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
