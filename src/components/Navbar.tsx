@@ -13,7 +13,7 @@ const orderedLabels = [
   "Pod",
   "Partners",
   "Infrastructure",
-  "Blog",
+  "Team",
   "Contact Us",
 ];
 
