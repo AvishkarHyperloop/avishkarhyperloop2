@@ -8,11 +8,14 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Pod', href: '/pod' },
   { label: 'Infrastructure', href: '/infrastructure' },
   { label: 'Research', href: '/research' },
-  { label: 'Partners', href: '#partners' },
+  // { label: 'Partners', href: '#partners' },
   // { label: 'Blog', href: '#blog' },
   { label: 'Team', href: '/team' },
-  { label: 'Contact Us', href: '#contact' },
-  { label: 'Ticket Calculator', href: '#calculator' },
+  // { label: 'Contact Us', href: '#contact' },
+  // { label: 'Ticket Calculator', href: '#calculator' },
+  { label: 'Our Partners', href: 'partners' },
+
+  
 ];
 
 export const FEATURES: Feature[] = [
@@ -174,16 +177,38 @@ export const VIDEO_STACK: VideoItem[] = [
 
 export const AVISHKAR_INFO = `Avishkar Hyperloop is a student team from IIT Madras, working on developing a scalable Hyperloop system. The team is competing in global competitions to prove the viability of this fifth mode of transport.`;
 
-export const PARTNER_LOGOS = [
-  { id: 1, name: 'Google Cloud', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Google_Cloud_logo.svg/2560px-Google_Cloud_logo.svg.png' },
-  { id: 2, name: 'Ansys', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Ansys_Inc._Logo_2008.png/1200px-Ansys_Inc._Logo_2008.png' },
-  { id: 3, name: 'Altium', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Altium_Logo_2017.svg/2560px-Altium_Logo_2017.svg.png' },
-  { id: 4, name: 'Swagelok', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Swagelok_logo.svg/2560px-Swagelok_logo.svg.png' },
-  { id: 5, name: 'MathWorks', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Matlab_Logo.png/1200px-Matlab_Logo.png' },
-  { id: 6, name: 'SolidWorks', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/SolidWorks_Logo.png/1200px-SolidWorks_Logo.png' },
-  { id: 7, name: 'Keysight', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Keysight_Technologies_Logo.svg/2560px-Keysight_Technologies_Logo.svg.png' },
-  { id: 8, name: 'Maxon', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Maxon_Motor_AG_logo.svg/2560px-Maxon_Motor_AG_logo.svg.png' },
-];
+export const PARTNER_LOGOS = 
+[
+  { id: 1, name: 'Tube Investments of India', url: '/partners/tube-investments.svg' },
+  { id: 2, name: 'Hexaware', url: '/partners/hexaware.png' },
+  { id: 3, name: 'SMC', url: '/partners/smc.png' },
+  { id: 4, name: 'Comsol', url: '/partners/Comsol.png' },
+  { id: 5, name: 'Sparton', url: '/partners/sparton.png' },
+  { id: 6, name: 'Hasura', url: '/partners/Hasura.png' },
+  { id: 7, name: 'Rupee Circle', url: '/partners/RupeeCircle.png' },
+  { id: 8, name: 'Olympia', url: '/partners/Olympia.jpg' },
+  { id: 9, name: 'Mouser', url: '/partners/mouser.png' },
+  { id: 10, name: 'Melasta', url: '/partners/Melasta.png' },
+  { id: 11, name: 'Autodesk', url: '/partners/autodesk.png' },
+  { id: 12, name: 'Parker', url: '/partners/Parker.png' },
+  { id: 13, name: 'Albright International', url: '/partners/albright.png' },
+  { id: 14, name: 'Ketto', url: '/partners/ketto.png' },
+  { id: 15, name: 'Fab Heads', url: '/partners/Fabheads.png' },
+  { id: 16, name: 'MGM Controllers', url: '/partners/mgm.png' },
+  { id: 17, name: 'Inverion', url: '/partners/Inverion.png' },
+  { id: 18, name: 'Compatech', url: '/partners/compacTech.png' },
+  { id: 19, name: 'Deloitte', url: '/partners/379251LOGO.jpg' },
+  { id: 20, name: 'Ansys', url: '/partners/ansys.png' },
+  { id: 21, name: 'Swagelok', url: '/partners/swagelok.png' },
+  { id: 22, name: 'Arus MR Tech', url: '/partners/arus.png' },
+  { id: 23, name: 'Benewake', url: '/partners/benewake-logo.png' },
+  { id: 24, name: 'L&T Heavy Civil Infrastructure', url: '/partners/images.jpeg' },
+  { id: 25, name: 'Arcelor Mittal', url: '/partners/arcelor.png' },
+  { id: 26, name: 'Altium', url: '/partners/altium.png' },
+  { id: 27, name: 'Vector', url: '/partners/vector.png' }
+
+
+]
 
 export const RESEARCH_AREAS = [
   {

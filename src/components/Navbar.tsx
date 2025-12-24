@@ -11,10 +11,10 @@ const orderedLabels = [
   "Home",
   "Media",
   "Pod",
-  "Partners",
   "Infrastructure",
   "Team",
   "Contact Us",
+  "Our Partners",
 ];
 
 // FIXED: Removed backdropFilter from animation (Framer Motion v11 does not allow)
