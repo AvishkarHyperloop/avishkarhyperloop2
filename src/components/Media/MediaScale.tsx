@@ -1,22 +1,25 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Play } from 'lucide-react';
+import { Play, Volume2, VolumeX } from 'lucide-react';
 
-export default function MediaScale(){
+export default function MediaScale() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0.7);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [scale, setScale] = useState(0.85);
   const [borderRadius, setBorderRadius] = useState(24);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
-      
+
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
+
       // Calculate how far the element is from the center of the screen
       const distanceFromCenter = (rect.top + rect.height / 2 - windowHeight / 2) / (windowHeight / 2);
-      
-      const newScale = Math.max(0.7, Math.min(1.0, 1.0 - Math.abs(distanceFromCenter) * 0.4));
+
+      // Increased min scale from 0.7 to 0.85 for more width
+      const newScale = Math.max(0.85, Math.min(1.0, 1.0 - Math.abs(distanceFromCenter) * 0.3));
       const newRadius = Math.max(0, Math.min(24, Math.abs(distanceFromCenter) * 100));
 
       setScale(newScale);
@@ -29,11 +32,23 @@ export default function MediaScale(){
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleMute = () => {
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      const action = isMuted ? 'unMute' : 'mute';
+      iframeRef.current.contentWindow.postMessage(JSON.stringify({
+        'event': 'command',
+        'func': action,
+        'args': []
+      }), '*');
+      setIsMuted(!isMuted);
+    }
+  };
+
   return (
     <section ref={containerRef} className="w-full h-[80vh] flex items-center justify-center overflow-hidden py-10 bg-[#050505]">
-      <div 
+      <div
         className="relative overflow-hidden transition-transform duration-100 ease-out shadow-2xl"
-        style={{ 
+        style={{
           width: '100%',
           height: '100%',
           transform: `scale(${scale})`,
@@ -41,23 +56,39 @@ export default function MediaScale(){
         }}
       >
         {/* Video/Image Placeholder */}
-        <div className="absolute inset-0 bg-neutral-900">
-          <img 
-            src="https://images.unsplash.com/photo-1552084117-56a9876679b6?q=80&w=2560&auto=format&fit=crop" 
-            alt="Hyperloop Reel" 
+        <div className="absolute inset-0 bg-neutral-900 pointer-events-none">
+          <iframe
+            ref={iframeRef}
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/a5cy-iby1rc?autoplay=1&mute=1&loop=1&playlist=a5cy-iby1rc&controls=0&showinfo=0&rel=0&enablejsapi=1"
+            title="Hyperloop Reel"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
             className="w-full h-full object-cover opacity-80"
-          />
-          <div className="absolute inset-0 bg-black/40" />
+          ></iframe>
+          <div className="absolute inset-0 bg-black/10" />
         </div>
 
         {/* Center Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 group cursor-pointer">
-          <div className="w-20 h-20 md:w-24 md:h-24 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 transition-all duration-300 group-hover:scale-110 group-hover:bg-green-500 group-hover:border-green-400">
-            <Play size={32} className="text-white fill-white ml-1" />
-          </div>
-          <h2 className="mt-8 text-5xl md:text-8xl font-tech font-bold text-white tracking-widest uppercase opacity-90 mix-blend-overlay">
-            PLAY REEL
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none mix-blend-overlay">
+          <h2 className="mt-8 text-5xl md:text-8xl font-tech font-bold text-white tracking-widest uppercase opacity-40">
+            AVISHKAR
           </h2>
+        </div>
+
+        {/* Controls */}
+        <div className="absolute bottom-8 right-8 z-50">
+          <button
+            onClick={toggleMute}
+            className="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-green-500 hover:border-green-400 hover:text-black transition-all duration-300 group"
+          >
+            {isMuted ? (
+              <VolumeX className="text-white group-hover:text-black" size={20} />
+            ) : (
+              <Volume2 className="text-white group-hover:text-black" size={20} />
+            )}
+          </button>
         </div>
       </div>
     </section>

@@ -15,7 +15,7 @@ export const NAV_ITEMS: NavItem[] = [
   // { label: 'Ticket Calculator', href: '#calculator' },
   { label: 'Our Partners', href: 'partners' },
 
-  
+
 ];
 
 export const FEATURES: Feature[] = [
@@ -98,38 +98,43 @@ export const GALLERY_IMAGES = [
 export const VIDEO_STACK: VideoItem[] = [
   {
     id: 1,
-    title: "Propulsion Test Alpha",
+    title: "Avishkar Hyperloop Progress",
     category: "TESTING",
-    thumbnail: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop",
-    duration: "02:14"
+    thumbnail: "https://img.youtube.com/vi/LcGnVSn1CJQ/maxresdefault.jpg",
+    duration: "02:14",
+    youtubeId: "LcGnVSn1CJQ"
   },
   {
     id: 2,
-    title: "Pod Aerodynamics",
+    title: "Propulsion System",
     category: "SIMULATION",
-    thumbnail: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=1000&auto=format&fit=crop",
-    duration: "01:45"
+    thumbnail: "https://img.youtube.com/vi/SUOMVRJ_LhA/maxresdefault.jpg",
+    duration: "01:45",
+    youtubeId: "SUOMVRJ_LhA"
   },
   {
     id: 3,
-    title: "Vacuum Tube Construction",
+    title: "Vacuum Tube Infrastructure",
     category: "INFRASTRUCTURE",
-    thumbnail: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop",
-    duration: "03:30"
+    thumbnail: "https://img.youtube.com/vi/WbYyf4tdxO8/maxresdefault.jpg",
+    duration: "03:30",
+    youtubeId: "WbYyf4tdxO8"
   },
   {
     id: 4,
-    title: "Team Interview: Systems",
+    title: "Team Overview",
     category: "CULTURE",
-    thumbnail: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop",
-    duration: "04:15"
+    thumbnail: "https://img.youtube.com/vi/6_NGm9N-YS0/maxresdefault.jpg",
+    duration: "04:15",
+    youtubeId: "6_NGm9N-YS0"
   },
   {
     id: 5,
-    title: "European Hyperloop Week",
+    title: "Feature Highlights",
     category: "EVENTS",
-    thumbnail: "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1000&auto=format&fit=crop",
-    duration: "05:00"
+    thumbnail: "https://img.youtube.com/vi/039TV1s141Q/maxresdefault.jpg",
+    duration: "05:00",
+    youtubeId: "039TV1s141Q"
   }
 ];
 
@@ -177,38 +182,38 @@ export const VIDEO_STACK: VideoItem[] = [
 
 export const AVISHKAR_INFO = `Avishkar Hyperloop is a student team from IIT Madras, working on developing a scalable Hyperloop system. The team is competing in global competitions to prove the viability of this fifth mode of transport.`;
 
-export const PARTNER_LOGOS = 
-[
-  { id: 1, name: 'Tube Investments of India', url: '/partners/tube-investments.svg' },
-  { id: 2, name: 'Hexaware', url: '/partners/hexaware.png' },
-  { id: 3, name: 'SMC', url: '/partners/smc.png' },
-  { id: 4, name: 'Comsol', url: '/partners/Comsol.png' },
-  { id: 5, name: 'Sparton', url: '/partners/sparton.png' },
-  { id: 6, name: 'Hasura', url: '/partners/Hasura.png' },
-  { id: 7, name: 'Rupee Circle', url: '/partners/RupeeCircle.png' },
-  { id: 8, name: 'Olympia', url: '/partners/Olympia.jpg' },
-  { id: 9, name: 'Mouser', url: '/partners/mouser.png' },
-  { id: 10, name: 'Melasta', url: '/partners/Melasta.png' },
-  { id: 11, name: 'Autodesk', url: '/partners/autodesk.png' },
-  { id: 12, name: 'Parker', url: '/partners/Parker.png' },
-  { id: 13, name: 'Albright International', url: '/partners/albright.png' },
-  { id: 14, name: 'Ketto', url: '/partners/ketto.png' },
-  { id: 15, name: 'Fab Heads', url: '/partners/Fabheads.png' },
-  { id: 16, name: 'MGM Controllers', url: '/partners/mgm.png' },
-  { id: 17, name: 'Inverion', url: '/partners/Inverion.png' },
-  { id: 18, name: 'Compatech', url: '/partners/compacTech.png' },
-  { id: 19, name: 'Deloitte', url: '/partners/379251LOGO.jpg' },
-  { id: 20, name: 'Ansys', url: '/partners/ansys.png' },
-  { id: 21, name: 'Swagelok', url: '/partners/swagelok.png' },
-  { id: 22, name: 'Arus MR Tech', url: '/partners/arus.png' },
-  { id: 23, name: 'Benewake', url: '/partners/benewake-logo.png' },
-  { id: 24, name: 'L&T Heavy Civil Infrastructure', url: '/partners/images.jpeg' },
-  { id: 25, name: 'Arcelor Mittal', url: '/partners/arcelor.png' },
-  { id: 26, name: 'Altium', url: '/partners/altium.png' },
-  { id: 27, name: 'Vector', url: '/partners/vector.png' }
+export const PARTNER_LOGOS =
+  [
+    { id: 1, name: 'Tube Investments of India', url: '/partners/tube-investments.svg' },
+    { id: 2, name: 'Hexaware', url: '/partners/hexaware.png' },
+    { id: 3, name: 'SMC', url: '/partners/smc.png' },
+    { id: 4, name: 'Comsol', url: '/partners/Comsol.png' },
+    { id: 5, name: 'Sparton', url: '/partners/sparton.png' },
+    { id: 6, name: 'Hasura', url: '/partners/Hasura.png' },
+    { id: 7, name: 'Rupee Circle', url: '/partners/RupeeCircle.png' },
+    { id: 8, name: 'Olympia', url: '/partners/Olympia.jpg' },
+    { id: 9, name: 'Mouser', url: '/partners/mouser.png' },
+    { id: 10, name: 'Melasta', url: '/partners/Melasta.png' },
+    { id: 11, name: 'Autodesk', url: '/partners/autodesk.png' },
+    { id: 12, name: 'Parker', url: '/partners/Parker.png' },
+    { id: 13, name: 'Albright International', url: '/partners/albright.png' },
+    { id: 14, name: 'Ketto', url: '/partners/ketto.png' },
+    { id: 15, name: 'Fab Heads', url: '/partners/Fabheads.png' },
+    { id: 16, name: 'MGM Controllers', url: '/partners/mgm.png' },
+    { id: 17, name: 'Inverion', url: '/partners/Inverion.png' },
+    { id: 18, name: 'Compatech', url: '/partners/compacTech.png' },
+    { id: 19, name: 'Deloitte', url: '/partners/379251LOGO.jpg' },
+    { id: 20, name: 'Ansys', url: '/partners/ansys.png' },
+    { id: 21, name: 'Swagelok', url: '/partners/swagelok.png' },
+    { id: 22, name: 'Arus MR Tech', url: '/partners/arus.png' },
+    { id: 23, name: 'Benewake', url: '/partners/benewake-logo.png' },
+    { id: 24, name: 'L&T Heavy Civil Infrastructure', url: '/partners/images.jpeg' },
+    { id: 25, name: 'Arcelor Mittal', url: '/partners/arcelor.png' },
+    { id: 26, name: 'Altium', url: '/partners/altium.png' },
+    { id: 27, name: 'Vector', url: '/partners/vector.png' }
 
 
-]
+  ]
 
 export const RESEARCH_AREAS = [
   {

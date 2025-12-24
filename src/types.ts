@@ -27,6 +27,7 @@ export interface VideoItem {
   category: string;
   thumbnail: string;
   duration: string;
+  youtubeId?: string;
 }
 
 export interface PodModel {
