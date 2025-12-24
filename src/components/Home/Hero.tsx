@@ -36,7 +36,7 @@ export default function Hero() {
 
   return (
     <div className="w-full relative z-10">
-      <section className="min-h-screen w-full flex items-start md:items-center pt-32 md:pt-0 relative px-6 md:px-12 lg:px-24 overflow-hidden bg-black">
+      <section className="min-h-screen w-full flex items-start md:items-center pt-40 md:pt-0 relative px-6 md:px-12 lg:px-24 overflow-hidden bg-black">
         {/* Background Video */}
         <div className="absolute inset-0 z-0 w-full h-full">
           <video
@@ -64,7 +64,7 @@ export default function Hero() {
 
         {/* Content */}
         <div
-          className="flex flex-col items-center md:items-start text-center md:text-left space-y-4 md:space-y-6 z-10 max-w-2xl will-change-transform relative"
+          className="flex flex-col items-center text-center space-y-4 md:space-y-6 z-10 max-w-2xl mx-auto will-change-transform relative"
           style={heroStyle}
         >
           <div className="flex items-center gap-4">
