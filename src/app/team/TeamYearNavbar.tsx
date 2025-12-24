@@ -26,7 +26,7 @@ const YEARS: { key: YearKey; label: string }[] = [
 
 export default function TeamYearNavbar({ activeYear, setActiveYear }: Props) {
   return (
-    <div className="relative z-50 max-w-7xl mx-auto px-6 mb-20">
+    <div className="relative z-40 max-w-7xl mx-auto px-6 mb-20">
       <div className="flex flex-wrap justify-center gap-3">
         {YEARS.map(({ key, label }) => (
           <button

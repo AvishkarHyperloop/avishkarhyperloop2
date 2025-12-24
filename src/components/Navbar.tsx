@@ -68,11 +68,12 @@ export default function Navbar() {
       document.body.style.overflow = "unset";
     };
   }, [open]);
+ 
 
   return (
     <div className="relative font-tech">
       {/* HEADER */}
-      <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-10 py-4">
+      <header className="fixed top-0 left-0 w-full z-70 flex items-center justify-between px-6 md:px-10 py-4">
         <Link href="/" className="flex items-center gap-3 group">
           <Image
             src={logo}
@@ -105,7 +106,7 @@ export default function Navbar() {
       <motion.aside
         animate={open ? "open" : "closed"}
         variants={menuVariants}
-        className="fixed top-0 left-0 w-full h-full bg-black/95 z-40 flex justify-center items-center"
+        className="fixed top-0 left-0 w-full h-full bg-black z-40 flex justify-center items-center"
       >
         <motion.div
           variants={containerVariants}

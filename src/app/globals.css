@@ -130,4 +130,8 @@ h4,
   50% { opacity: 1; transform: translate(-3px, -2px); }
   100% { opacity: 0; transform: translate(0px, 0px); }
 }
-
+body.nav-open .team-year-nav {
+  opacity: 0;
+  transform: translateY(24px);
+  pointer-events: none;
+}

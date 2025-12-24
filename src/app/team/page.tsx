@@ -1,8 +1,12 @@
+
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import TeamYearNavbar, { YearKey } from "./TeamYearNavbar";
 import PreviousTeams from "./PreviousTeams";
+
+/* ================= TEAM DATA ================= */
 
 const TEAM_DATA = [
   {
@@ -20,7 +24,6 @@ const TEAM_DATA = [
       { name: "Visaka M", role: "Team Member", photo: "/team/Visaka.png" },
     ],
   },
-
   {
     subsystem: "Electrical",
     members: [
@@ -38,7 +41,6 @@ const TEAM_DATA = [
       { name: "Shristy", role: "Team Member", photo: "/team/Shristy.png" },
     ],
   },
-
   {
     subsystem: "GUI",
     members: [
@@ -47,7 +49,6 @@ const TEAM_DATA = [
       { name: "Abhinav Madyastha", role: "Team Member", photo: "/team/Abhinav.png" },
     ],
   },
-
   {
     subsystem: "Infrastructure",
     members: [
@@ -58,7 +59,6 @@ const TEAM_DATA = [
       { name: "Dhairya Gandhi", role: "Team Member", photo: "/team/Dhairya.png" },
     ],
   },
-
   {
     subsystem: "Levitation",
     members: [
@@ -70,7 +70,6 @@ const TEAM_DATA = [
       { name: "Sinchan", role: "Team Member", photo: "" },
     ],
   },
-
   {
     subsystem: "Mechanical",
     members: [
@@ -84,7 +83,6 @@ const TEAM_DATA = [
       { name: "Neela Lohith", role: "Team Member", photo: "/team/Neela.png" },
     ],
   },
-
   {
     subsystem: "Propulsion",
     members: [
@@ -95,7 +93,6 @@ const TEAM_DATA = [
       { name: "Mangalpally Tejas", role: "Team Member", photo: "" },
     ],
   },
-
   {
     subsystem: "Thermal",
     members: [
@@ -112,54 +109,75 @@ const TEAM_DATA = [
   },
 ];
 
+/* ================= HELPERS ================= */
+
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .slice(0, 2)
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
+}
+
+/* ================= PAGE ================= */
+
 export default function TeamPage() {
-  // ✅ FIX 1: default is PRESENT
   const [activeYear, setActiveYear] = useState<YearKey>("PRESENT");
+  const data = useMemo(() => TEAM_DATA, []);
+  
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
+    window.scrollTo({ top: 0 });
   }, []);
 
-  const data = useMemo(() => TEAM_DATA, []);
-
   return (
-    <div className="w-full min-h-screen bg-[#050505] text-white pt-24">
-      {/* HEADER */}
-      <section className="max-w-7xl mx-auto px-6 mb-24 text-center">
-        <span className="text-green-500 tracking-[0.5em] text-xs uppercase block mb-4">
+    <div className="w-full min-h-screen bg-[#050505] text-white pt-24 font-tech">
+      {/* ================= HEADER ================= */}
+      <section className="max-w-7xl mx-auto px-6 mb-28 text-center">
+        <span className="text-green-500 tracking-[0.6em] text-xs uppercase block mb-6">
           Our People
         </span>
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+        <h1 className="text-6xl md:text-9xl font-medium tracking-tight">
           THE TEAM
         </h1>
-        <p className="mt-6 text-gray-400 max-w-2xl mx-auto">
-          A multidisciplinary group of engineers, designers, and strategists
-          building the future of high-speed transportation.
+        <p className="mt-8 text-gray-400 max-w-3xl mx-auto text-lg font-light">
+          Engineers, designers, and strategists working across disciplines to
+          build the future of high-speed transportation.
         </p>
       </section>
 
-      {/* YEAR NAV */}
       <TeamYearNavbar activeYear={activeYear} setActiveYear={setActiveYear} />
 
-      {/* ✅ FIX 2: PRESENT check */}
+      {/* ================= TEAM CONTENT ================= */}
       {activeYear === "PRESENT" ? (
-        <div className="space-y-32 pb-32">
+        <div className="space-y-32 pb-40">
           {data.map((group, idx) => (
             <section key={idx} className="max-w-7xl mx-auto px-6">
-              <div className="mb-16">
-                <h2 className="text-4xl md:text-6xl font-bold">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="mb-16"
+              >
+                <h2 className="text-5xl md:text-7xl font-light tracking-wide">
                   {group.subsystem.toUpperCase()}
                 </h2>
-                <div className="w-24 h-[2px] bg-green-500 mt-4" />
-              </div>
+                <div className="w-32 h-[1px] bg-green-500 mt-6" />
+              </motion.div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10">
                 {group.members.map((member, i) => (
-                  <div
+                  <motion.div
                     key={i}
-                    className="bg-white/5 border border-white/10 rounded-2xl p-4"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4 }}
+                    className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-green-500/50 transition-all"
                   >
-                    <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-black">
+                    <div className="aspect-square rounded-xl overflow-hidden mb-5 bg-black flex items-center justify-center">
                       {member.photo ? (
                         <img
                           src={member.photo}
@@ -167,15 +185,19 @@ export default function TeamPage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-neutral-900" />
+                        <div className="w-24 h-24 rounded-full border border-green-500/40 flex items-center justify-center text-2xl font-light text-green-400 bg-black/60">
+                          {getInitials(member.name)}
+                        </div>
                       )}
                     </div>
 
-                    <h4 className="font-bold text-sm">{member.name}</h4>
+                    <h4 className="font-light text-sm tracking-wide">
+                      {member.name}
+                    </h4>
                     <p className="text-gray-400 text-xs mt-1">
                       {member.role}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </section>
@@ -184,6 +206,74 @@ export default function TeamPage() {
       ) : (
         <PreviousTeams year={activeYear} />
       )}
+
+      {/* ================= TEAM ANALYTICS ================= */}
+      {activeYear === "PRESENT" && (
+  <section className="max-w-7xl mx-auto px-6 pb-56">
+    <motion.div
+      initial={{ opacity: 0, y: 80 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.9 }}
+      className="mb-32 text-center"
+    >
+      <span className="text-green-500 tracking-[0.6em] text-xs uppercase block mb-6">
+        Data Overview
+      </span>
+      <h2 className="text-6xl md:text-8xl font-light tracking-tight">
+        TEAM ANALYTICS
+      </h2>
+    </motion.div>
+
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+      {[
+        ["TOTAL PARTICIPANTS", "55"],
+        ["B.TECH", "42"],
+        ["M.TECH", "3"],
+        ["DUAL DEGREE", "6"],
+        ["M.S", "1"],
+        ["BS + M.TECH", "1"],
+        ["MALE", "45 (81.8%)"],
+        ["FEMALE", "10 (18.2%)"],
+        ["M : F RATIO", "4.5 : 1"],
+        ["1st YEAR", "3"],
+        ["2nd YEAR", "27"],
+        ["3rd YEAR", "16"],
+        ["4th YEAR", "4"],
+        ["NA / UNSPECIFIED", "5"],
+        ["TEAM MEMBERS", "41"],
+        ["SUB HEADS", "10"],
+        ["TEAM HEADS", "3"],
+        ["OTHER / NA", "1"],
+        ["ELECTRICAL", "13"],
+        ["MECHANICAL", "8"],
+        ["BUSINESS & SER", "8"],
+        ["THERMAL", "7"],
+        ["LEVITATION", "5"],
+        ["PROPULSION", "4"],
+        ["INFRASTRUCTURE", "4"],
+        ["GUI", "3"],
+      ].map(([label, value], i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: i * 0.04 }}
+          className="bg-white/5 border border-white/10 rounded-3xl p-10"
+        >
+          <div className="text-5xl font-light text-green-400 mb-3">
+            {value}
+          </div>
+          <div className="text-xs tracking-[0.35em] text-gray-400">
+            {label}
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </section>
+)}
+
     </div>
   );
 }
