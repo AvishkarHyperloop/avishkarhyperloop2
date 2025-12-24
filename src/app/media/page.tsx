@@ -7,6 +7,7 @@ import MediaScale from '@/components/Media/MediaScale';
 import VideoCarousel from '@/components/Media/VideoCarousel';
 
 import ImageGallery from '@/components/Media/ImageGallery';
+import PodShowcase from '@/components/Media/PodShowcase';
 import { Download, FileText, Image, Youtube } from 'lucide-react';
 
 export default function MediaPage() {
@@ -42,6 +43,10 @@ export default function MediaPage() {
 
          {/* Image Gallery */}
          <ImageGallery />
+
+         {/* Pod Showcase 3D */}
+         <PodShowcase />
+
 
          {/* Articles Section */}
          <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10">
