@@ -14,7 +14,7 @@ function PodMesh({ url }: PodModelProps) {
   return (
     <primitive
       object={scene}
-      scale={0.9}
+      scale={0.7}
       position={[0, -0.6, 0]}
       rotation={[0, Math.PI / 10, 0]} // slightly more tilt for drama
     />
