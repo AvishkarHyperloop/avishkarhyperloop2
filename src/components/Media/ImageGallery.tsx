@@ -1,6 +1,5 @@
-import React from 'react';
-
-import { Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, ChevronDown } from 'lucide-react';
 
 const image1 = "/media/image1.jpg";
 const image2 = "/media/image2.jpg";
@@ -43,6 +42,12 @@ const localImages = [
 ];
 
 export default function ImageGallery() {
+  const [visibleCount, setVisibleCount] = useState(4);
+  const [loadedImages, setLoadedImages] = useState<number[]>([]);
+
+  const handleImageLoad = (id: number) => {
+    setLoadedImages(prev => [...prev, id]);
+  };
   return (
     <section id="gallery" className="w-full py-24 px-6 bg-[#050505] flex justify-center">
       <div className="max-w-[1600px] w-full">
@@ -57,7 +62,7 @@ export default function ImageGallery() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 auto-rows-[300px] md:auto-rows-[400px]">
-          {localImages.map((img, idx) => (
+          {localImages.slice(0, visibleCount).map((img, idx) => (
             <div
               key={img.id}
               className={`group relative overflow-hidden rounded-2xl bg-neutral-900 border border-white/5 cursor-pointer
@@ -86,7 +91,11 @@ export default function ImageGallery() {
               <img
                 src={img.src}
                 alt={img.title}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+                onLoad={() => handleImageLoad(img.id)}
+                className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105
+                  ${loadedImages.includes(img.id) ? 'opacity-100 blur-0' : 'opacity-0 blur-sm'}
+                `}
               />
 
               {/* Overlay Gradient */}
@@ -98,11 +107,23 @@ export default function ImageGallery() {
                   {/* <span className="text-green-400 text-xs font-tech tracking-wider uppercase">{img.category}</span> */}
                   {/* <h3 className="text-2xl md:text-3xl font-tech font-bold text-white mt-1">{img.title}</h3> */}
                 </div>
-               
+
               </div>
             </div>
           ))}
         </div>
+
+        {visibleCount < localImages.length && (
+          <div className="flex justify-center mt-12">
+            <button
+              onClick={() => setVisibleCount(prev => prev + 4)}
+              className="group flex flex-col items-center gap-2 text-white/50 hover:text-green-500 transition-colors duration-300"
+            >
+              <span className="text-xs font-tech tracking-widest uppercase">View More</span>
+              <ChevronDown className="animate-bounce group-hover:animate-none" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
