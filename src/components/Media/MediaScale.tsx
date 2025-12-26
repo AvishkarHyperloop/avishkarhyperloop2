@@ -45,7 +45,7 @@ export default function MediaScale() {
   };
 
   return (
-    <section ref={containerRef} className="w-full h-[80vh] flex items-center justify-center overflow-hidden py-10 bg-[#050505]">
+    <section ref={containerRef} className="w-full h-[50vh] md:h-[80vh] flex items-center justify-center overflow-hidden py-6 md:py-10 bg-[#050505]">
       <div
         className="relative overflow-hidden transition-transform duration-100 ease-out shadow-2xl"
         style={{
@@ -72,21 +72,21 @@ export default function MediaScale() {
 
         {/* Center Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none mix-blend-overlay">
-          <h2 className="mt-8 text-5xl md:text-8xl font-tech font-bold text-white tracking-widest uppercase opacity-40">
+          <h2 className="mt-8 text-[12vw] md:text-8xl font-tech font-bold text-white tracking-widest uppercase opacity-40">
             AVISHKAR
           </h2>
         </div>
 
         {/* Controls */}
-        <div className="absolute bottom-8 right-8 z-50">
+        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-50">
           <button
             onClick={toggleMute}
-            className="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-green-500 hover:border-green-400 hover:text-black transition-all duration-300 group"
+            className="w-10 h-10 md:w-12 md:h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-green-500 hover:border-green-400 hover:text-black transition-all duration-300 group"
           >
             {isMuted ? (
-              <VolumeX className="text-white group-hover:text-black" size={20} />
+              <VolumeX className="text-white group-hover:text-black" size={16} />
             ) : (
-              <Volume2 className="text-white group-hover:text-black" size={20} />
+              <Volume2 className="text-white group-hover:text-black" size={16} />
             )}
           </button>
         </div>

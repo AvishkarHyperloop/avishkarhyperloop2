@@ -19,17 +19,24 @@ export default function MediaPage() {
       <div className="w-full min-h-screen bg-[#050505] pt-20">
 
          {/* Media Hero */}
-         <section className="relative h-[50vh] w-full flex items-center justify-center overflow-hidden">
+         <section className="relative h-[40vh] md:h-[50vh] w-full flex items-center justify-center overflow-hidden px-4">
             <div className="absolute inset-0 z-0">
                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-900/20 via-[#050505] to-[#050505]"></div>
             </div>
 
             <div className="relative z-10 text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
-               <span className="text-green-500 font-tech tracking-[0.5em] text-xs uppercase block mb-4">Press & News</span>
-               <h1 className="text-6xl md:text-9xl font-tech font-bold text-white tracking-tighter mb-4">
+               <span className="text-green-500 font-tech tracking-[0.3em] md:tracking-[0.5em] text-[10px] md:text-xs uppercase block mb-3 md:mb-4">
+                  Press & News
+               </span>
+               <h1 className="
+                  text-[clamp(2.5rem,10vw,6rem)] md:text-[clamp(3.5rem,8vw,8rem)] 
+                  leading-[0.9]
+                  font-tech font-bold text-white tracking-tighter mb-4
+                  drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+               ">
                   MEDIA CENTER
                </h1>
-               <p className="text-gray-400 max-w-xl mx-auto font-light">
+               <p className="text-gray-400 max-w-[90%] md:max-w-xl mx-auto font-light text-sm md:text-base leading-relaxed">
                   Explore our latest footage, press releases, and high-resolution assets.
                </p>
             </div>

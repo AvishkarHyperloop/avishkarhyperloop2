@@ -6,8 +6,24 @@ import { VideoModal } from './VideoModal';
 
 export default function VideoCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
+  const [scrollRange, setScrollRange] = useState(0);
+
+  useEffect(() => {
+    const calculateScrollRange = () => {
+      if (trackRef.current) {
+        const trackWidth = trackRef.current.scrollWidth;
+        const windowWidth = window.innerWidth;
+        setScrollRange(trackWidth - windowWidth);
+      }
+    };
+
+    calculateScrollRange();
+    window.addEventListener('resize', calculateScrollRange);
+    return () => window.removeEventListener('resize', calculateScrollRange);
+  }, []); // Run on mount and resize
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,19 +72,20 @@ export default function VideoCarousel() {
 
         {/* Horizontal Scroll Track */}
         <div
-          className="flex gap-8 md:gap-16 px-[10vw] relative z-10 will-change-transform items-center"
+          ref={trackRef}
+          className="flex gap-4 md:gap-16 px-6 md:px-[10vw] relative z-10 will-change-transform items-center w-max"
           style={{
-            transform: `translateX(${-progress * 75}%)`
+            transform: `translateX(${-progress * scrollRange}px)`
           }}
         >
           {VIDEO_STACK.map((video, index) => (
             <div
               key={video.id}
-              className="relative shrink-0 w-[80vw] md:w-[600px] aspect-[16/9] group cursor-pointer"
+              className="relative shrink-0 w-[85vw] md:w-[600px] aspect-[16/9] group cursor-pointer"
               onClick={() => setSelectedVideo(video)}
             >
               {/* Card Container */}
-              <div className="w-full h-full rounded-none md:rounded-2xl overflow-hidden relative border border-white/10 bg-neutral-900">
+              <div className="w-full h-full rounded-2xl overflow-hidden relative border border-white/10 bg-neutral-900">
 
                 {/* Parallax Image Inside Card */}
                 <div
@@ -96,9 +113,9 @@ export default function VideoCarousel() {
                   <div className="flex justify-between items-end">
                     <div>
                       <span className="text-green-400 font-tech text-[10px] tracking-widest uppercase mb-1 block">{video.category}</span>
-                      <h3 className="text-white font-tech text-2xl md:text-3xl font-bold leading-none">{video.title}</h3>
+                      <h3 className="text-white font-tech text-xl md:text-3xl font-bold leading-none line-clamp-1">{video.title}</h3>
                     </div>
-                    <span className="font-tech text-white/50 text-sm tracking-wider">{video.duration}</span>
+                    <span className="font-tech text-white/50 text-xs md:text-sm tracking-wider whitespace-nowrap ml-4">{video.duration}</span>
                   </div>
                 </div>
               </div>
@@ -109,12 +126,12 @@ export default function VideoCarousel() {
           ))}
 
           {/* End Card */}
-          <div className="shrink-0 w-[40vw] md:w-[300px] h-[300px] flex items-center justify-center border-l border-white/10 ml-8">
+          <div className="shrink-0 w-[40vw] md:w-[300px] h-[20vh] md:h-[300px] flex items-center justify-center border-l border-white/10 ml-4 md:ml-8">
             <div className="text-center group cursor-pointer">
-              <div className="w-16 h-16 rounded-full border border-white/20 mx-auto flex items-center justify-center mb-4 group-hover:bg-white group-hover:text-black transition-colors">
-                <Play size={24} />
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/20 mx-auto flex items-center justify-center mb-4 group-hover:bg-white group-hover:text-black transition-colors">
+                <Play size={20} className="md:w-6 md:h-6" />
               </div>
-              <span className="text-white font-tech tracking-widest text-sm uppercase">View All</span>
+              <span className="text-white font-tech tracking-widest text-xs md:text-sm uppercase">View All</span>
             </div>
           </div>
         </div>
