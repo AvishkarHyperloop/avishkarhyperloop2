@@ -14,8 +14,8 @@ export const NAV_ITEMS: NavItem[] = [
   // { label: 'Contact Us', href: '#contact' },
   // { label: 'Ticket Calculator', href: '#calculator' },
   { label: 'Our Partners', href: 'partners' },
-
-
+  // { label: 'Contact Us', href: 'contact' },
+  { label: 'Subsystems', href: 'subsystems' },
 ];
 
 export const FEATURES: Feature[] = [

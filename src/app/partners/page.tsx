@@ -222,6 +222,51 @@ type Edition = {
 
 const PARTNERS: Edition[] = [
   {
+    version: "6.0",
+    sponsors: [
+      { name: "Tube Investments of India", role: "Scalability Partner", logo: "/partners/tube-investments.svg" },
+      { name: "L&T Heavy Civil Infrastructure", role: "Partner", logo: "/partners/images.jpeg" },
+      { name: "Arcelor Mittal", role: "Materials Partner", logo: "/partners/Arcelormittal-logo.svg.png" },
+      { name: "Ansys", role: "Software Sponsor", logo: "/partners/ansys.png" },
+      { name: "Altium", role: "Systems Sponsor", logo: "/partners/altium.png" },
+      { name: "Vector", role: "CAN / Ethernet Tools Sponsor", logo: "/partners/vector.png" },
+    ],
+  },
+  {
+    version: "5.0",
+    sponsors: [
+      { name: "Tube Investments of India", role: "Scalability Partner", logo: "/partners/tube-investments.svg" },
+      { name: "L&T Heavy Civil Infrastructure", role: "Partner", logo: "/partners/images.jpeg" },
+      { name: "Arcelor Mittal", role: "Materials Partner", logo: "/partners/Arcelormittal-logo.svg.png" },
+      { name: "Ansys", role: "Software Sponsor", logo: "/partners/ansys.png" },
+      { name: "Altium", role: "Systems Sponsor", logo: "/partners/altium.png" },
+      { name: "Vector", role: "CAN / Ethernet Tools Sponsor", logo: "/partners/vector.png" },
+    ],
+  },
+  {
+    version: "4.0",
+    sponsors: [
+      { name: "Deloitte", role: "Title Sponsor", logo: "/partners/379251LOGO.jpg" },
+      { name: "Comsol", role: "Gold Sponsor", logo: "/partners/Comsol.png" },
+      { name: "Ansys", role: "Silver Sponsor · Simulation", logo: "/partners/ansys.png" },
+      { name: "Swagelok", role: "Silver Sponsor · Pneumatics", logo: "/partners/swagelok.png" },
+      { name: "Arus MR Tech", role: "Supporting · Suspension", logo: "/partners/arus.png" },
+      { name: "Benewake", role: "Supporting · Sensing", logo: "/partners/benewake-logo.png" },
+    ],
+  },
+  {
+    version: "3.0",
+    sponsors: [
+      { name: "Deloitte", role: "Title Sponsor", logo: "/partners/379251LOGO.jpg" },
+      { name: "Comsol", role: "Gold Sponsor", logo: "/partners/Comsol.png" },
+      { name: "Ansys", role: "Silver Sponsor · Simulation", logo: "/partners/ansys.png" },
+      { name: "Swagelok", role: "Silver Sponsor · Pneumatics", logo: "/partners/swagelok.png" },
+      { name: "Arus MR Tech", role: "Supporting · Suspension", logo: "/partners/arus.png" },
+      { name: "Benewake", role: "Supporting · Sensing", logo: "/partners/benewake.png" },
+    ],
+  },
+
+   {
     version: "2.0",
     sponsors: [
       { name: "Tube Investments of India", role: "Title Sponsor", logo: "/partners/tube-investments.svg" },
@@ -242,50 +287,6 @@ const PARTNERS: Edition[] = [
       { name: "MGM Controllers", role: "Supporting Sponsor", logo: "/partners/mgm.png" },
       { name: "Inverion", role: "Supporting Sponsor", logo: "/partners/Inverion.png" },
       { name: "Compatech", role: "Supporting Sponsor", logo: "/partners/compacTech.png" },
-    ],
-  },
-  {
-    version: "3.0",
-    sponsors: [
-      { name: "Deloitte", role: "Title Sponsor", logo: "/partners/379251LOGO.jpg" },
-      { name: "Comsol", role: "Gold Sponsor", logo: "/partners/Comsol.png" },
-      { name: "Ansys", role: "Silver Sponsor · Simulation", logo: "/partners/ansys.png" },
-      { name: "Swagelok", role: "Silver Sponsor · Pneumatics", logo: "/partners/swagelok.png" },
-      { name: "Arus MR Tech", role: "Supporting · Suspension", logo: "/partners/arus.png" },
-      { name: "Benewake", role: "Supporting · Sensing", logo: "/partners/benewake.png" },
-    ],
-  },
-  {
-    version: "4.0",
-    sponsors: [
-      { name: "Deloitte", role: "Title Sponsor", logo: "/partners/379251LOGO.jpg" },
-      { name: "Comsol", role: "Gold Sponsor", logo: "/partners/Comsol.png" },
-      { name: "Ansys", role: "Silver Sponsor · Simulation", logo: "/partners/ansys.png" },
-      { name: "Swagelok", role: "Silver Sponsor · Pneumatics", logo: "/partners/swagelok.png" },
-      { name: "Arus MR Tech", role: "Supporting · Suspension", logo: "/partners/arus.png" },
-      { name: "Benewake", role: "Supporting · Sensing", logo: "/partners/benewake-logo.png" },
-    ],
-  },
-  {
-    version: "5.0",
-    sponsors: [
-      { name: "Tube Investments of India", role: "Scalability Partner", logo: "/partners/tube-investments.svg" },
-      { name: "L&T Heavy Civil Infrastructure", role: "Partner", logo: "/partners/images.jpeg" },
-      { name: "Arcelor Mittal", role: "Materials Partner", logo: "/partners/Arcelormittal-logo.svg.png" },
-      { name: "Ansys", role: "Software Sponsor", logo: "/partners/ansys.png" },
-      { name: "Altium", role: "Systems Sponsor", logo: "/partners/altium.png" },
-      { name: "Vector", role: "CAN / Ethernet Tools Sponsor", logo: "/partners/vector.png" },
-    ],
-  },
-  {
-    version: "6.0",
-    sponsors: [
-      { name: "Tube Investments of India", role: "Scalability Partner", logo: "/partners/tube-investments.svg" },
-      { name: "L&T Heavy Civil Infrastructure", role: "Partner", logo: "/partners/images.jpeg" },
-      { name: "Arcelor Mittal", role: "Materials Partner", logo: "/partners/Arcelormittal-logo.svg.png" },
-      { name: "Ansys", role: "Software Sponsor", logo: "/partners/ansys.png" },
-      { name: "Altium", role: "Systems Sponsor", logo: "/partners/altium.png" },
-      { name: "Vector", role: "CAN / Ethernet Tools Sponsor", logo: "/partners/vector.png" },
     ],
   },
 ];
