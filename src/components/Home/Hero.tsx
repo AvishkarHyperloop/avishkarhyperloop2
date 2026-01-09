@@ -2,11 +2,9 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { ChevronRight } from "lucide-react";
-// Video moved to public folder
-const videovfx = "/videos/VfxVideo.mp4";
 
 export default function Hero() {
-  const [heroStyle, setHeroStyle] = useState({
+  const [style, setStyle] = useState({
     opacity: 1,
     transform: "translateY(0px)",
   });
@@ -14,127 +12,130 @@ export default function Hero() {
   const ticking = useRef(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const onScroll = () => {
       if (ticking.current) return;
       ticking.current = true;
 
       requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        // Fade out slightly faster to keep the transition smooth
-        const opacity = Math.max(0, 1 - scrollY / 500);
-        const translateY = -scrollY * 0.2;
+        const y = window.scrollY;
 
-        setHeroStyle({
-          opacity,
-          transform: `translateY(${translateY}px)`,
+        // Softer parallax on mobile
+        const isMobile = window.innerWidth < 640;
+        const translateFactor = isMobile ? 0.1 : 0.18;
+        const fadeFactor = isMobile ? 800 : 600;
+
+        setStyle({
+          opacity: Math.max(0, 1 - y / fadeFactor),
+          transform: `translateY(${y * -translateFactor}px)`,
         });
 
         ticking.current = false;
       });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-black flex items-center justify-center">
-      {/* ================= BACKGROUND VIDEO ================= */}
+    <section className="relative w-full min-h-screen bg-black overflow-hidden flex items-center">
+      {/* ================= BACKGROUND ================= */}
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover opacity-70"
-        >
-          <source
-            src={videovfx}
-            type="video/mp4"
-          />
-        </video>
-      </div>
-
-      {/* ================= OVERLAYS ================= */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Darker Vignette for better text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_35%,rgba(34,197,94,0.18),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black" />
       </div>
 
       {/* ================= CONTENT ================= */}
-      <div className="relative z-10 w-full max-w-7xl px-6 sm:px-10 lg:px-24">
+      <div className="relative z-10 w-full max-w-7xl px-5 sm:px-10 lg:px-24">
         <div
-          className="flex flex-col items-center text-center space-y-6 sm:space-y-10"
-          style={heroStyle}
+          className="
+            max-w-3xl
+            space-y-6 sm:space-y-8
+          "
+          style={style}
         >
           {/* Eyebrow */}
-          <div className="flex flex-col items-center space-y-4">
-            <span className="text-green-400 font-tech uppercase tracking-[0.4em] text-[clamp(0.7rem,2vw,0.9rem)] opacity-90">
-              Welcome to the Future
+          <div className="space-y-3">
+            <span
+              className="
+                block
+                text-green-400 font-tech uppercase
+                tracking-[0.45em]
+                text-[10px] sm:text-xs
+                opacity-90
+              "
+            >
+              Building the Fifth Mode of Transport
             </span>
-            <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-green-500 to-transparent shadow-[0_0_15px_rgba(34,197,94,0.8)]" />
+            <div className="w-14 sm:w-20 h-[1px] bg-green-500/80 shadow-[0_0_18px_rgba(34,197,94,0.9)]" />
           </div>
 
-          {/* ================= MAIN HEADLINE ================= */}
-          <h1 className="
-            font-tech font-extrabold text-white tracking-tight 
-            text-[clamp(2.5rem,13vw,9.5rem)]
-            leading-[0.9] sm:leading-[0.8] lg:leading-[0.78]
-            drop-shadow-[0_20px_60px_rgba(0,0,0,0.85)]
-          ">
+          {/* ================= HEADLINE ================= */}
+          <h1
+            className="
+              font-tech font-extrabold text-white
+              leading-[0.95]
+              tracking-tight
+
+              text-[clamp(3.2rem,11vw,9rem)]
+              sm:text-[clamp(4.5rem,9vw,9rem)]
+            "
+          >
             HYPERLOOP
             <br />
-            <span className="font-light block mt-1 sm:mt-2">
+            <span className="font-light text-gray-200 block mt-1 sm:mt-2">
               FOR{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-green-400 to-green-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-green-400 to-green-500">
                 INDIA
               </span>
             </span>
           </h1>
 
           {/* ================= DESCRIPTION ================= */}
-          <p className="
-            max-w-2xl text-gray-300 font-light
-            text-[clamp(1rem,3vw,1.15rem)]
-            leading-relaxed mx-auto
-            px-4
-          ">
-            Pioneering the fifth mode of transport. Avishkar Hyperloop is
-            engineering a sustainable, ultra-high-speed future for global
-            connectivity.
+          <p
+            className="
+              text-gray-300 font-light
+              leading-relaxed
+
+              text-[clamp(1rem,4vw,1.15rem)]
+              max-w-xl
+            "
+          >
+            Avishkar Hyperloop is engineering a sustainable,
+            ultra-high-speed transportation system — designed
+            for scalability, efficiency, and India’s future
+            mobility needs.
           </p>
 
           {/* ================= CTA ================= */}
-          <div className="pt-6 sm:pt-10">
-            <button className="
-              group relative
-              px-8 py-4 sm:px-12 sm:py-5
-              border border-green-500/50
-              bg-green-500/5
-              text-white font-tech font-bold
-              text-[clamp(0.85rem,2.5vw,1rem)]
-              tracking-[0.2em]
-              transition-all duration-500
-              hover:bg-green-500 hover:text-black
-              hover:shadow-[0_0_50px_rgba(34,197,94,0.4)]
-              rounded-sm
-            ">
-              <span className="relative z-10 flex items-center gap-3">
-                DISCOVER OUR POD
-                <ChevronRight
-                  size={18}
-                  className="transition-transform duration-300 group-hover:translate-x-2"
-                />
-              </span>
+          <div className="pt-3 sm:pt-6">
+            <button
+              className="
+                group inline-flex items-center gap-3
+                px-8 py-4 sm:px-10 sm:py-5
+                border border-green-500/60
+                bg-green-500/10
+                text-white font-tech font-bold
+                tracking-[0.22em] text-[11px] sm:text-sm
+
+                transition-all duration-500
+                hover:bg-green-500 hover:text-black
+                hover:shadow-[0_0_70px_rgba(34,197,94,0.5)]
+              "
+            >
+              DISCOVER THE POD
+              <ChevronRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-2"
+              />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Optional: Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
-        <div className="w-[1px] h-12 bg-gradient-to-b from-green-500 to-transparent" />
+      {/* ================= SCROLL INDICATOR ================= */}
+      <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-24 opacity-60">
+        <div className="w-[1px] h-12 sm:h-16 bg-gradient-to-b from-green-500 to-transparent animate-bounce" />
       </div>
     </section>
   );

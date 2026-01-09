@@ -27,7 +27,7 @@ const TEAM_DATA = [
   {
     subsystem: "Electrical",
     members: [
-      { name: "Kaushal", role: "Sub Head", photo: "/team/Kaushal.png" },
+      { name: "Kaushal", role: "Sub Head", photo: "" },
       { name: "Yasho Srikar", role: "Sub Head", photo: "" },
       { name: "Praveen Babu G", role: "Sub Head", photo: "/team/PraveenBabu.png" },
       { name: "Gautam D", role: "Sub Head", photo: "" },
@@ -54,7 +54,7 @@ const TEAM_DATA = [
     members: [
       { name: "Bhupender Singh Bisht", role: "Team Member", photo: "/team/Bhupender.png" },
       { name: "Aarohi Vanjare", role: "Team Member", photo: "/team/Aarohi.png" },
-      { name: "Juttuka Jayapaul", role: "Team Member", photo: "/team/Juttuka.png" },
+      { name: "Juttuka Jayapaul", role: "Team Member", photo: "" },
       { name: "Sanvi Mittal", role: "Team Member", photo: "/team/Sanvi.png" },
       { name: "Dhairya Gandhi", role: "Team Member", photo: "/team/Dhairya.png" },
     ],

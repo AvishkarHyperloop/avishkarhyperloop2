@@ -18,65 +18,81 @@ const orderedLabels = [
   "Contact Us",
 ];
 
-// FIXED: Removed backdropFilter from animation (Framer Motion v11 does not allow)
+/* ================= MOTION VARIANTS ================= */
+
 const menuVariants: Variants = {
   open: {
     opacity: 1,
     pointerEvents: "auto",
-    transition: { duration: 0.5 }
+    transition: { duration: 0.45 },
   },
   closed: {
     opacity: 0,
     pointerEvents: "none",
-    transition: { duration: 0.3 }
-  }
+    transition: { duration: 0.3 },
+  },
 };
 
 const containerVariants: Variants = {
-  open: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.12 }
-  },
-  closed: {
-    transition: { staggerChildren: 0.05, staggerDirection: -1 }
-  }
+  open: { transition: { staggerChildren: 0.08, delayChildren: 0.12 } },
+  closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
 };
 
 const itemVariants: Variants = {
-  open: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4 }
-  },
-  closed: {
-    opacity: 0,
-    y: 20,
-    transition: { duration: 0.25 }
-  }
+  open: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  closed: { opacity: 0, y: 20, transition: { duration: 0.25 } },
 };
+
+/* ================= NAVBAR ================= */
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("Home");
+  const [scrolled, setScrolled] = useState(false);
 
-  const navItems = useMemo(() =>
-    orderedLabels
-      .map((label) => NAV_ITEMS.find((item) => item.label === label))
-      .filter(Boolean) as { label: string; href: string }[]
-    , []);
+  const navItems = useMemo(
+    () =>
+      orderedLabels
+        .map((label) => NAV_ITEMS.find((item) => item.label === label))
+        .filter(Boolean) as { label: string; href: string }[],
+    []
+  );
 
-  // FIXED cleanup return type
+  /* ===== Scroll Blur Logic ===== */
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 30);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* ===== Lock body when menu open ===== */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [open]);
- 
 
   return (
     <div className="relative font-tech">
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 w-full z-70 flex items-center justify-between px-6 md:px-10 py-4">
+      {/* ================= HEADER ================= */}
+      <header
+        className={`
+          fixed top-0 left-0 w-full z-70
+          flex items-center justify-between
+          px-6 md:px-10 py-4
+          transition-all duration-500
+          ${
+            scrolled
+              ? "bg-black/60 backdrop-blur-md border-b border-white/10"
+              : "bg-transparent"
+          }
+        `}
+      >
+        {/* LOGO */}
         <Link href="/" className="flex items-center gap-3 group">
           <Image
             src={logo}
@@ -99,13 +115,24 @@ export default function Navbar() {
         <motion.button
           whileTap={{ scale: 1.1 }}
           onClick={() => setOpen((prev) => !prev)}
-          className="w-12 h-12 rounded-md bg-white/5 border border-white/10 text-3xl text-green-400 hover:text-white hover:border-green-400/40 flex items-center justify-center transition-all duration-300"
+          className={`
+            w-12 h-12 rounded-md
+            border border-white/10
+            flex items-center justify-center
+            text-3xl transition-all duration-300
+            ${
+              scrolled
+                ? "bg-white/10 text-white"
+                : "bg-white/5 text-green-400 hover:text-white"
+            }
+            hover:border-green-400/40
+          `}
         >
           {open ? "✕" : "☰"}
         </motion.button>
       </header>
 
-      {/* FULLSCREEN MENU */}
+      {/* ================= FULLSCREEN MENU ================= */}
       <motion.aside
         animate={open ? "open" : "closed"}
         variants={menuVariants}
@@ -125,14 +152,22 @@ export default function Navbar() {
                   setActive(item.label);
                   setOpen(false);
                 }}
-                className={`group uppercase tracking-[0.22em] text-2xl sm:text-3xl md:text-4xl transition-all duration-500 relative overflow-visible ${active === item.label ? "text-white" : "text-green-400/80 hover:text-white"
-                  }`}
+                className={`
+                  group uppercase tracking-[0.22em]
+                  text-2xl sm:text-3xl md:text-4xl
+                  transition-all duration-500 relative
+                  ${
+                    active === item.label
+                      ? "text-white"
+                      : "text-green-400/80 hover:text-white"
+                  }
+                `}
               >
-                <span className="relative inline-block glitch-text" data-text={item.label}>
+                <span className="relative inline-block">
                   {item.label}
                 </span>
 
-                <span className="absolute left-1/2 -bottom-2 w-0 h-[2px] bg-green-500 group-hover:w-full transition-all duration-500 -translate-x-1/2"></span>
+                <span className="absolute left-1/2 -bottom-2 w-0 h-[2px] bg-green-500 group-hover:w-full transition-all duration-500 -translate-x-1/2" />
               </Link>
             </motion.div>
           ))}
