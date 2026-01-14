@@ -183,7 +183,7 @@ export default function Hero() {
 
           <div className="flex flex-wrap gap-4 pt-4">
             <button className="px-10 py-5 bg-green-500 text-black font-bold tracking-[0.2em] text-xs uppercase hover:shadow-[0_0_40px_rgba(34,197,94,0.45)] transition-all">
-              Launch Console <ChevronRight size={18} />
+              Launch Console 
             </button>
 
             <button className="px-10 py-5 border border-white/20 text-white font-bold tracking-[0.2em] text-xs uppercase hover:bg-white/5 transition-colors">
