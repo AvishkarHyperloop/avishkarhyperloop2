@@ -62,7 +62,7 @@ export default function SubsystemsPage() {
 
           <motion.h1 
             initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-            className="font-black text-[12vw] md:text-[10vw] leading-none tracking-tighter italic uppercase text-glow"
+            className="font-black text-[12vw] md:text-[10vw] leading-none tracking-tighter italic uppercase"
           >
             SUB <span className="text-transparent stroke-text">SYSTEMS</span>
           </motion.h1>

@@ -32,7 +32,7 @@ export default function MediaPage() {
                   text-[clamp(2.5rem,10vw,6rem)] md:text-[clamp(3.5rem,8vw,8rem)] 
                   leading-[0.9]
                   font-tech font-bold text-white tracking-tighter mb-4
-                  drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+                  drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)] text-glow
                ">
                   MEDIA CENTER
                </h1>
