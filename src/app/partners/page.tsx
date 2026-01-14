@@ -224,12 +224,20 @@ const PARTNERS: Edition[] = [
    {
     version: "8.0",
     sponsors: [
-      { name: "IITMAA" , logo: "/partners/tube-investments.svg" },
-      { name: "L&T Heavy Civil Infrastructure", role: "Partner", logo: "/partners/images.jpeg" },
+      { name: "IITMAA", role: "Scalability Partner", logo: "/partners/IITMAA.png" },
+      { name: "TE Connectivity", role: "Partner", logo: "/partners/polamcote-logo2.png" },
       { name: "Arcelor Mittal", role: "Materials Partner", logo: "/partners/Arcelormittal-logo.svg.png" },
+      { name: "Indian Railways", role: "Materials Partner", logo: "/partners/IndianRailways.png" },
+      { name: "Wabtec", role: "Software Sponsor", logo: "/partners/wabtec.png" },
+      { name: "Harting", role: "Systems Sponsor", logo: "/partners/Harting.png.png" },
       { name: "Ansys", role: "Software Sponsor", logo: "/partners/ansys.png" },
-      { name: "Altium", role: "Systems Sponsor", logo: "/partners/altium.png" },
       { name: "Vector", role: "CAN / Ethernet Tools Sponsor", logo: "/partners/vector.png" },
+      { name: "Swagelok", role: "Silver Sponsor · Pneumatics", logo: "/partners/swagelok.png" },
+      { name: "Aditya Birla", role: "Silver Sponsor", logo: "/partners/Hindalco.png" },
+      { name: "Composites Tomorrow", role: "Silver Sponsor", logo: "/partners/CompositesTomorrow.png" },
+
+
+      // { name: "Vector", role: "CAN / Ethernet Tools Sponsor", logo: "/partners/vector.png" },
     ],
   },
   {
