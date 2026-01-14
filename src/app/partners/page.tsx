@@ -221,6 +221,17 @@ type Edition = {
 };
 
 const PARTNERS: Edition[] = [
+   {
+    version: "8.0",
+    sponsors: [
+      { name: "IITMAA" , logo: "/partners/tube-investments.svg" },
+      { name: "L&T Heavy Civil Infrastructure", role: "Partner", logo: "/partners/images.jpeg" },
+      { name: "Arcelor Mittal", role: "Materials Partner", logo: "/partners/Arcelormittal-logo.svg.png" },
+      { name: "Ansys", role: "Software Sponsor", logo: "/partners/ansys.png" },
+      { name: "Altium", role: "Systems Sponsor", logo: "/partners/altium.png" },
+      { name: "Vector", role: "CAN / Ethernet Tools Sponsor", logo: "/partners/vector.png" },
+    ],
+  },
   {
     version: "6.0",
     sponsors: [

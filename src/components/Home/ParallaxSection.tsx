@@ -36,7 +36,7 @@ export const ParallaxSection: React.FC = () => {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2506&auto=format&fit=crop"
+            src=""
             alt="Avishkar Station Render"
             className="w-full h-full object-cover"
           />

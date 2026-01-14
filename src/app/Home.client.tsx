@@ -33,9 +33,6 @@ export default function Home() {
         <TechnologyParallax />
       </section>
 
-      <section>
-        <ParallaxSection />
-      </section>
 
       <section>
         <Partners />
