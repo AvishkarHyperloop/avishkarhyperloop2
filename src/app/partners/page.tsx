@@ -4,6 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { Terminal, Shield, Zap, Cpu, Activity, Network, Database, Lock, Radio, Sparkles } from "lucide-react";
+import Link from "next/link";
+// import { useRouter } from "next/navigation";
+
+// const router = useRouter();
 
 /* ================= DATA (All Sponsors Preserved) ================= */
 
@@ -445,14 +449,18 @@ export default function PartnersPage() {
               Building the 5th mode of transport requires a multidisciplinary ecosystem. 
               Connect with Avishkar Hyperloop for technical or strategic partnerships.
             </p>
+{/* import Link from "next/link"; */}
 
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(34,197,94,0.5)" }}
-              whileTap={{ scale: 0.95 }}
-              className="mt-8 px-12 py-4 bg-gradient-to-r from-green-500 to-green-600 text-black font-bold uppercase text-xs tracking-[0.15em] rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.3)] font-tech"
-            >
-              Inquire for v9.0
-            </motion.button>
+<Link href="/contact">
+  <motion.button
+    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(34,197,94,0.5)" }}
+    whileTap={{ scale: 0.95 }}
+    className="mt-8 px-12 py-4 bg-gradient-to-r from-green-500 to-green-600 text-black font-bold uppercase text-xs tracking-[0.15em] rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.3)] font-tech"
+  >
+    Inquire for v9.0
+  </motion.button>
+</Link>
+
           </motion.div>
 
           {/* Footer Info */}
