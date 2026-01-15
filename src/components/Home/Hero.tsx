@@ -158,23 +158,31 @@ export default function Hero() {
 
           {/* ================= EXACT REQUESTED H1 ================= */}
           <h1
-            className="
-              font-tech font-extrabold text-white
-              leading-[0.95]
-              tracking-tight
-              text-[clamp(3.1rem,10vw,8rem)]
-              sm:text-[clamp(4.2rem,8vw,8rem)]
-            "
-          >
-            HYPERLOOP
-            <br />
-            <span className="font-light text-gray-200 block mt-1 sm:mt-2">
-              FOR{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-green-400 to-green-500">
-                INDIA
-              </span>
-            </span>
-          </h1>
+  className="
+    font-tech font-extrabold text-white
+    leading-[0.92] sm:leading-[0.95]
+    tracking-tight
+    text-[clamp(2.6rem,12vw,8rem)]
+    sm:text-[clamp(4.2rem,8vw,8rem)]
+  "
+>
+  <span className="block sm:inline">
+    HYPERLOOP
+  </span>
+
+  <span className="block mt-1 sm:mt-2 font-light text-gray-200">
+    FOR{" "}
+    <span className="
+      inline-block
+      text-transparent bg-clip-text
+      bg-gradient-to-r from-green-300 via-green-400 to-green-500
+      tracking-wide
+    ">
+      INDIA
+    </span>
+  </span>
+</h1>
+
 
           <p className="text-gray-400 font-light leading-relaxed text-lg max-w-xl border-l-2 border-green-500/50 pl-6">
             Avishkar Hyperloop is scaling the next generation of logistics.

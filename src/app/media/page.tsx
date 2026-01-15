@@ -33,8 +33,9 @@ export default function MediaPage() {
                   leading-[0.9]
                   font-tech font-bold text-white tracking-tighter mb-4
                   drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)] text-glow
+                  
                ">
-                  MEDIA CENTER
+                  MEDIA <span className='text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-500'>CENTER</span>
                </h1>
                <p className="text-gray-400 max-w-[90%] md:max-w-xl mx-auto font-light text-sm md:text-base leading-relaxed">
                   Explore our latest footage, press releases, and high-resolution assets.

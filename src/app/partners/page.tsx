@@ -308,12 +308,9 @@ export default function PartnersPage() {
             transition={{ delay: 0.5, duration: 1 }}
             className="font-black tracking-tighter leading-[0.9] text-[clamp(3.5rem,12vw,9rem)] text-white uppercase font-tech mb-6 flex items-center justify-center gap-3 flex-wrap"
           >
-            <span className="relative inline-flex items-center gap-2">
-              PART
            
-            </span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-green-500 to-green-300 animate-gradient">
-              NERS
+              PARTNERS
             </span>
           </motion.h1>
 
