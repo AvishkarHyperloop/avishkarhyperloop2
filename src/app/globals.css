@@ -150,3 +150,13 @@ body.nav-open .team-year-nav {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+section {
+  scroll-snap-stop: always;
+}
+main {
+  scroll-snap-type: y mandatory;
+}

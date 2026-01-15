@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Html, OrbitControls, useGLTF } from "@react-three/drei";
 
@@ -25,23 +25,22 @@ function PodMesh({ url }: PodModelProps) {
   );
 }
 
-useGLTF.preload("/models/pod-v1.glb");
-useGLTF.preload("/models/pod-v2.glb");
-
 /* ================= CANVAS ================= */
 
 export default function PodModelCanvas({ url }: PodModelProps) {
   const [isMobile, setIsMobile] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [ready, setReady] = useState(false);
+  const controls = useRef<any>(null);
 
+  /* ===== DEVICE CHECK (RUNS ONCE) ===== */
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
   return (
     <div className="relative w-full h-[320px] sm:h-[420px] md:h-[520px]">
-      {/* ===== PRE-RENDER INDICATOR (VISIBLE IMMEDIATELY) ===== */}
-      {showOverlay && (
+      {/* ===== LOADING OVERLAY ===== */}
+      {!ready && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="text-white text-xs tracking-widest uppercase animate-pulse">
             Initializing 3D Pod
@@ -54,14 +53,18 @@ export default function PodModelCanvas({ url }: PodModelProps) {
           position: isMobile ? [0, 1, 4] : [0, 1.2, 3.2],
           fov: isMobile ? 60 : 55,
         }}
-        dpr={isMobile ? 1 : [1, 1.6]}
-        onCreated={() => setShowOverlay(false)}
+        dpr={1} // clamp DPR (major Chrome/Brave win)
+        gl={{ antialias: true, powerPreference: "high-performance" }}
+        onCreated={() => {
+          // delay overlay removal to avoid jank
+          setTimeout(() => setReady(true), 150);
+        }}
       >
         {/* ===== LIGHTING ===== */}
         <ambientLight intensity={0.6} />
         <directionalLight position={[3, 5, 2]} intensity={1} />
 
-        {/* ===== MODEL LOADING ===== */}
+        {/* ===== MODEL ===== */}
         <Suspense
           fallback={
             <Html center>
@@ -76,10 +79,11 @@ export default function PodModelCanvas({ url }: PodModelProps) {
 
         {/* ===== CONTROLS ===== */}
         <OrbitControls
+          ref={controls}
           enablePan={false}
           enableZoom={false}
           autoRotate
-          autoRotateSpeed={isMobile ? 0.6 : 0.8}
+          autoRotateSpeed={isMobile ? 0.5 : 0.7}
         />
       </Canvas>
     </div>
