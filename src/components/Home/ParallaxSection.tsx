@@ -2,28 +2,20 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { Play, ChevronRight, MapPin } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export const ParallaxSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const totalHeight = rect.height - windowHeight || 1;
+  // Use framer-motion for performance-critical scroll tracking
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"]
+  });
 
-      let scrollProgress = -rect.top / totalHeight;
-      scrollProgress = Math.max(0, Math.min(1, scrollProgress));
-
-      setProgress(scrollProgress);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Transform scroll progress to scale value
+  // Maps 0->1 progress to 1->1.18 scale (matching original 1 + progress * 0.18)
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
 
   const BG_IMAGES = [
     "/media/image8.JPG",
@@ -44,10 +36,10 @@ export const ParallaxSection: React.FC = () => {
     <div ref={sectionRef} className="relative h-[220vh] w-full bg-black">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* Background with zoom */}
-        <div
+        <motion.div
           className="absolute inset-0 w-full h-full will-change-transform"
           style={{
-            transform: `scale(${1 + progress * 0.18})`,
+            scale,
           }}
         >
           {BG_IMAGES.map((src, index) => (
@@ -61,9 +53,9 @@ export const ParallaxSection: React.FC = () => {
           ))}
           <div className="absolute inset-0 bg-gradient-to-r from-[#051a05]/80 via-transparent to-transparent mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 opacity-90" />
-        </div>
+        </motion.div>
 
-  
+
       </div>
     </div>
   );

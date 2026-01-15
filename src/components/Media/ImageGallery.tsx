@@ -88,21 +88,26 @@ export default function ImageGallery() {
           
               `}
             >
+              {/* Loading Placeholder (Shimmer) */}
+              {!loadedImages.includes(img.id) && (
+                <div className="absolute inset-0 bg-neutral-800/50 animate-pulse z-0" />
+              )}
+
               <img
                 src={img.src}
                 alt={img.title}
                 loading="lazy"
                 onLoad={() => handleImageLoad(img.id)}
-                className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105
-                  ${loadedImages.includes(img.id) ? 'opacity-100 blur-0' : 'opacity-0 blur-sm'}
+                className={`w-full h-full object-cover transition-all duration-1000 ease-out group-hover:scale-105 z-10 relative
+                  ${loadedImages.includes(img.id) ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}
                 `}
               />
 
               {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity z-20 pointer-events-none" />
 
               {/* Text Content */}
-              <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 flex justify-between items-end translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+              <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 flex justify-between items-end translate-y-4 group-hover:translate-y-0 transition-transform duration-300 z-30">
                 <div>
                   {/* <span className="text-green-400 text-xs font-tech tracking-wider uppercase">{img.category}</span> */}
                   {/* <h3 className="text-2xl md:text-3xl font-tech font-bold text-white mt-1">{img.title}</h3> */}

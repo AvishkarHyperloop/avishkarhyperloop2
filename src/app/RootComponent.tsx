@@ -10,12 +10,12 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 });
 
 // Cursor is a NAMED export: `export function Cursor() { ... }` or `export const Cursor = ...`
-const Cursor = dynamic(
+/* const Cursor = dynamic(
   () => import("@/components/Cursor").then((mod) => mod.Cursor),
   {
     ssr: false,
   }
-);
+); */
 
 export default function RootComponent({
   children,
@@ -24,7 +24,7 @@ export default function RootComponent({
 }) {
   return (
     <div className="relative w-full min-h-screen">
-      <Cursor />
+      {/* <Cursor /> */}
       <Navbar />
       <main>{children}</main>
       <Footer />
