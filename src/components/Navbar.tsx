@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/image.png";
@@ -23,16 +23,17 @@ const orderedLabels = [
 const menuVariants: Variants = {
   open: {
     opacity: 1,
-    pointerEvents: "auto",
-    transition: { duration: 0.45 },
+    display: "flex",
+    transition: { duration: 0.4 },
   },
   closed: {
     opacity: 0,
-    pointerEvents: "none",
+    transitionEnd: {
+      display: "none", // Completely removes the element from cursor interaction
+    },
     transition: { duration: 0.3 },
   },
 };
-
 
 const containerVariants: Variants = {
   open: { transition: { staggerChildren: 0.08, delayChildren: 0.12 } },
@@ -59,27 +60,25 @@ export default function Navbar() {
     []
   );
 
-  /* ===== Scroll Blur Logic ===== */
+  /* ===== Scroll Logic ===== */
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
-
+    const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ===== Lock body when menu open ===== */
+  /* ===== Prevent Scroll when Open ===== */
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "unset";
-    return () => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
       document.body.style.overflow = "unset";
-    };
+    }
   }, [open]);
 
   return (
     <div className="relative font-tech">
-      {/* ================= HEADER ================= */}
+      {/* ================= HEADER (Top Layer) ================= */}
       <header
         className={`
           fixed top-0 left-0 w-full z-[100]
@@ -114,17 +113,19 @@ export default function Navbar() {
 
         {/* MENU BUTTON */}
         <motion.button
-          whileTap={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => setOpen((prev) => !prev)}
           className={`
-            w-12 h-12 rounded-md
+            w-12 h-12 rounded-md z-[110]
             border border-white/10
             flex items-center justify-center
-            text-3xl transition-all duration-300
+            text-2xl transition-all duration-300
             ${
-              scrolled
-                ? "bg-white/10 text-white"
-                : "bg-white/5 text-green-400 hover:text-white"
+              open 
+                ? "bg-white text-black border-white" 
+                : scrolled 
+                  ? "bg-white/10 text-white" 
+                  : "bg-white/5 text-green-400"
             }
             hover:border-green-400/40
           `}
@@ -133,19 +134,15 @@ export default function Navbar() {
         </motion.button>
       </header>
 
-      {/* ================= FULLSCREEN MENU ================= */}
+      {/* ================= FULLSCREEN MENU (Middle Layer) ================= */}
       <motion.aside
-  animate={open ? "open" : "closed"}
-  variants={menuVariants}
-  className={`fixed top-0 left-0 w-full h-full bg-black z-40 flex justify-center items-center ${
-    open ? "pointer-events-auto" : "pointer-events-none"
-  }`}
->
-
+        initial="closed"
+        animate={open ? "open" : "closed"}
+        variants={menuVariants}
+        className="fixed top-0 left-0 w-full h-full bg-black/95 backdrop-blur-lg z-[90] flex justify-center items-center"
+      >
         <motion.div
           variants={containerVariants}
-          initial="closed"
-          animate={open ? "open" : "closed"}
           className="flex flex-col gap-6 text-center"
         >
           {navItems.map((item) => (
@@ -159,7 +156,7 @@ export default function Navbar() {
                 className={`
                   group uppercase tracking-[0.22em]
                   text-2xl sm:text-3xl md:text-4xl
-                  transition-all duration-500 relative
+                  transition-all duration-500 relative inline-block
                   ${
                     active === item.label
                       ? "text-white"
@@ -167,11 +164,12 @@ export default function Navbar() {
                   }
                 `}
               >
-                <span className="relative inline-block">
-                  {item.label}
-                </span>
-
-                <span className="absolute left-1/2 -bottom-2 w-0 h-[2px] bg-green-500 group-hover:w-full transition-all duration-500 -translate-x-1/2" />
+                <span className="relative z-10">{item.label}</span>
+                <span className={`
+                  absolute left-1/2 -bottom-2 h-[2px] bg-green-500 
+                  transition-all duration-500 -translate-x-1/2
+                  ${active === item.label ? "w-full" : "w-0 group-hover:w-full"}
+                `} />
               </Link>
             </motion.div>
           ))}
