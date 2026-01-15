@@ -41,18 +41,18 @@ export default function MediaPage() {
                </p>
             </div>
          </section>
+         <ImageGallery />
+         {/* Pod Showcase 3D */}
+         <PodShowcase />
+
+         {/* Image Gallery */}
+
 
          {/* Featured Reel */}
          <MediaScale />
 
          {/* Video Archives */}
          <VideoCarousel />
-
-         {/* Image Gallery */}
-         <ImageGallery />
-
-         {/* Pod Showcase 3D */}
-         <PodShowcase />
 
 
          {/* Articles Section */}

@@ -1,7 +1,7 @@
 "use client";
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, ScrollControls, useScroll, Image as ImageImpl, Environment } from '@react-three/drei';
+import { useGLTF, Image as ImageImpl, Environment, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Images for the floating gallery
@@ -9,7 +9,7 @@ const images = [
     "/media/image1.jpg",
     "/media/image2.jpg",
     "/media/image3.jpg",
-  
+
     "/media/image5.jpeg",
     "/media/image6.jpg",
     "/media/image11.JPG",
@@ -18,12 +18,10 @@ const images = [
 
 function PodModel({ scale = [1, 1, 1] }: { scale?: number[] }) {
     const { scene } = useGLTF('/models/pod-v2.glb');
-    // No auto-rotation, handled by parent
     return <primitive object={scene} scale={scale} />;
 }
 
-function SceneContent() {
-    const scroll = useScroll();
+function SceneContent({ progress }: { progress: React.MutableRefObject<number> }) {
     const group = useRef<THREE.Group>(null);
     const { width } = useThree((state) => state.viewport);
 
@@ -37,7 +35,7 @@ function SceneContent() {
     useFrame((state, delta) => {
         if (group.current) {
             // Rotate the entire group based on scroll offset (360 degrees over scroll)
-            const targetRotation = scroll.offset * Math.PI * 2;
+            const targetRotation = progress.current * Math.PI * 2;
 
             group.current.rotation.y = THREE.MathUtils.damp(
                 group.current.rotation.y,
@@ -63,14 +61,7 @@ function SceneContent() {
                         url={img}
                         position={[x, 0, z]}
                         scale={imgScale}
-                        rotation={[0, angle, 0]} // Face outward/tangent? Or face center?
-                        // If we want them to look at the pod (center), we use rotation={[0, angle, 0]} which aligns with radius vector if setup right.
-                        // Actually, default plane faces +Z. 
-                        // Position x=sin, z=cos.
-                        // Rotation y=angle makes it face "outwards" from center usually.
-                        // Let's try facing center by adding PI.
-                        // But usually "gallery" means you see them as you rotate.
-                        // Let's stick to facing the center so they "surround" the pod.
+                        rotation={[0, angle, 0]}
                         side={THREE.DoubleSide}
                         transparent
                     />
@@ -81,8 +72,38 @@ function SceneContent() {
 }
 
 export default function PodShowcase() {
+    const sectionRef = useRef<HTMLElement>(null);
+    // Use a mutable ref to store progress to avoid re-rendering layout just for passing value,
+    // though passing ref is standard pattern for bridging React/Canvas freq updates.
+    const progress = useRef(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!sectionRef.current) return;
+            const { top, height } = sectionRef.current.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            // Calculate progress based on how much of the section has been scrolled
+            // When top == 0 (section starts being sticky), progress = 0
+            // When top == -(height - windowHeight), progress = 1
+            const scrollDistance = height - windowHeight;
+            if (scrollDistance <= 0) return;
+
+            let p = -top / scrollDistance;
+            // Clamp between 0 and 1
+            p = Math.max(0, Math.min(1, p));
+            progress.current = p;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Initial check
+        handleScroll();
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <section className="h-[300vh] w-full bg-[#050505] relative z-0">
+        <section ref={sectionRef} className="h-[300vh] w-full bg-[#050505] relative z-0">
             <div className="sticky top-0 h-screen w-full overflow-hidden">
                 {/* Overlay Text */}
                 <div className="absolute top-10 left-0 w-full text-center z-10 pointer-events-none">
@@ -100,13 +121,21 @@ export default function PodShowcase() {
 
                     <Environment preset="city" />
 
-                    <ScrollControls pages={3} damping={0.2}>
-                        <SceneContent />
-                    </ScrollControls>
+                    <SceneContent progress={progress} />
+
+                    <OrbitControls
+                        enableZoom={false}
+                        enablePan={false}
+                        enableDamping
+                        dampingFactor={0.05}
+                        rotateSpeed={0.5}
+                        maxPolarAngle={Math.PI / 2 + 0.2} // Limit vertical rotation slightly
+                        minPolarAngle={Math.PI / 2 - 0.2}
+                    />
                 </Canvas>
 
                 <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-[10px] font-tech tracking-[0.3em] pointer-events-none animate-pulse">
-                    SCROLL TO EXPLORE
+                    SCROLL TO EXPLORE • DRAG TO ROTATE
                 </div>
             </div>
         </section>
