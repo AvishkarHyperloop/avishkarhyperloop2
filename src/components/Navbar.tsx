@@ -33,6 +33,7 @@ const menuVariants: Variants = {
   },
 };
 
+
 const containerVariants: Variants = {
   open: { transition: { staggerChildren: 0.08, delayChildren: 0.12 } },
   closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
@@ -81,7 +82,7 @@ export default function Navbar() {
       {/* ================= HEADER ================= */}
       <header
         className={`
-          fixed top-0 left-0 w-full z-70
+          fixed top-0 left-0 w-full z-[100]
           flex items-center justify-between
           px-6 md:px-10 py-4
           transition-all duration-500
@@ -134,10 +135,13 @@ export default function Navbar() {
 
       {/* ================= FULLSCREEN MENU ================= */}
       <motion.aside
-        animate={open ? "open" : "closed"}
-        variants={menuVariants}
-        className="fixed top-0 left-0 w-full h-full bg-black z-40 flex justify-center items-center"
-      >
+  animate={open ? "open" : "closed"}
+  variants={menuVariants}
+  className={`fixed top-0 left-0 w-full h-full bg-black z-40 flex justify-center items-center ${
+    open ? "pointer-events-auto" : "pointer-events-none"
+  }`}
+>
+
         <motion.div
           variants={containerVariants}
           initial="closed"

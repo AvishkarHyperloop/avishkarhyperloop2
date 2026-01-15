@@ -17,12 +17,12 @@ export default function PreviousTeams({ year }: Props) {
   return (
     <div className="max-w-7xl mx-auto px-6 pb-32">
       {/* YEAR TITLE */}
-      <div className="text-center mb-20">
+      {/* <div className="text-center mb-20">
         <h2 className="text-4xl md:text-6xl font-tech font-bold">
           {year.replace("-", " - ")}
         </h2>
         <div className="w-24 h-[2px] bg-green-500 mx-auto mt-4" />
-      </div>
+      </div> */}
 
       {/* SUBSYSTEMS */}
       <div className="space-y-24">
