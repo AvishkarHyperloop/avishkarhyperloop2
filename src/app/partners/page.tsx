@@ -4,6 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { Terminal, Shield, Zap, Cpu, Activity, Network, Database, Lock, Radio, Sparkles } from "lucide-react";
+import Link from "next/link";
+// import { useRouter } from "next/navigation";
+
+// const router = useRouter();
 
 /* ================= DATA (All Sponsors Preserved) ================= */
 
@@ -254,48 +258,7 @@ export default function PartnersPage() {
         />
       </div>
 
-      {/* ================= HUD INTERFACE ELEMENTS ================= */}
-      <div className="fixed top-6 left-6 z-50 hidden xl:block">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-col gap-2 font-mono text-[8px] text-green-500/60 uppercase tracking-[0.15em]"
-        >
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border border-green-500/20 rounded backdrop-blur-sm">
-            <Activity size={10} className="text-green-500 animate-pulse" />
-            <span>System: <span className="text-green-400">ONLINE</span></span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border border-green-500/20 rounded backdrop-blur-sm">
-            <Shield size={10} className="text-green-500" />
-            <span>Link: <span className="text-green-400">SECURED</span></span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border border-green-500/20 rounded backdrop-blur-sm">
-            <Network size={10} className="text-green-500" />
-            <span>Network: <span className="text-green-400">ACTIVE</span></span>
-          </div>
-        </motion.div>
-      </div>
-
-      <div className="fixed bottom-6 right-6 z-50 hidden xl:block">
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.7 }}
-          className="flex flex-col items-end gap-1.5 font-mono text-[8px] text-white/30 uppercase tracking-[0.1em]"
-        >
-          <div className="px-3 py-1.5 bg-black/40 border border-white/10 rounded backdrop-blur-sm">
-            <p>COORD_X: <span className="text-green-400">44.02.12</span></p>
-          </div>
-          <div className="px-3 py-1.5 bg-black/40 border border-white/10 rounded backdrop-blur-sm">
-            <p>REGISTRY_ID: <span className="text-green-400">AV_8.0_HQ</span></p>
-          </div>
-          <div className="px-3 py-1.5 bg-black/40 border border-white/10 rounded backdrop-blur-sm">
-            <p>STATUS: <span className="text-green-400">OPERATIONAL</span></p>
-          </div>
-        </motion.div>
-      </div>
-
+     
       {/* ================= PROGRESS INDICATOR ================= */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-green-600 via-green-400 to-green-600 z-50 origin-left shadow-[0_0_10px_rgba(34,197,94,0.5)]"
@@ -349,12 +312,9 @@ export default function PartnersPage() {
             transition={{ delay: 0.5, duration: 1 }}
             className="font-black tracking-tighter leading-[0.9] text-[clamp(3.5rem,12vw,9rem)] text-white uppercase font-tech mb-6 flex items-center justify-center gap-3 flex-wrap"
           >
-            <span className="relative inline-flex items-center gap-2">
-              PART
            
-            </span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-green-500 to-green-300 animate-gradient">
-              NERS
+              PARTNERS
             </span>
           </motion.h1>
 
@@ -489,14 +449,18 @@ export default function PartnersPage() {
               Building the 5th mode of transport requires a multidisciplinary ecosystem. 
               Connect with Avishkar Hyperloop for technical or strategic partnerships.
             </p>
+{/* import Link from "next/link"; */}
 
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(34,197,94,0.5)" }}
-              whileTap={{ scale: 0.95 }}
-              className="mt-8 px-12 py-4 bg-gradient-to-r from-green-500 to-green-600 text-black font-bold uppercase text-xs tracking-[0.15em] rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.3)] font-tech"
-            >
-              Inquire for v9.0
-            </motion.button>
+<Link href="/contact">
+  <motion.button
+    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(34,197,94,0.5)" }}
+    whileTap={{ scale: 0.95 }}
+    className="mt-8 px-12 py-4 bg-gradient-to-r from-green-500 to-green-600 text-black font-bold uppercase text-xs tracking-[0.15em] rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.3)] font-tech"
+  >
+    Inquire for v9.0
+  </motion.button>
+</Link>
+
           </motion.div>
 
           {/* Footer Info */}

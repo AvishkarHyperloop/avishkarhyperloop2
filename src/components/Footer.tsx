@@ -1,5 +1,10 @@
 "use client";
 import React, { useState } from 'react';
+import Link from "next/link";
+// import { NAV_ITEMS } from "@/constants/navigation";
+//  // adjust path if needed
+import { NAV_ITEMS } from "../Constants";
+
 import {
   ArrowUp,
   Mail,
@@ -122,22 +127,21 @@ export const Footer: React.FC = () => {
               EXPLORE
             </h4>
             <ul className="space-y-4 text-gray-400 text-sm font-tech tracking-wider">
-              {["Home", "Pod", "Infrastructure", "Media", "Team", "Partners"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="hover:text-green-400 hover:translate-x-2 transition-all block relative group"
-                    >
-                      <span className="absolute left-[-10px] opacity-0 group-hover:opacity-100 text-green-500 transition-opacity">
-                        ›
-                      </span>
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
+  {NAV_ITEMS.map((item) => (
+    <li key={item.label}>
+      <Link
+        href={item.href}
+        className="hover:text-green-400 hover:translate-x-2 transition-all block relative group"
+      >
+        <span className="absolute left-[-10px] opacity-0 group-hover:opacity-100 text-green-500 transition-opacity">
+          ›
+        </span>
+        {item.label}
+      </Link>
+    </li>
+  ))}
+</ul>
+
           </div>
 
           {/* Socials */}
