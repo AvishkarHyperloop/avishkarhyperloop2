@@ -1,25 +1,33 @@
 "use client";
 import React, { useState } from 'react';
-import { ArrowUp, Mail, MapPin, Linkedin, Twitter, Instagram, Github, ArrowRight } from 'lucide-react';
+import {
+  ArrowUp,
+  Mail,
+  MapPin,
+  Linkedin,
+  Twitter,
+  Instagram,
+  Github,
+  ArrowRight,
+} from "lucide-react";
 
 export const Footer: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <footer className="relative w-full bg-[#050505] pt-24 pb-12 overflow-hidden border-t border-white/5">
-
       {/* Background Grid Effect */}
       <div
         className="absolute inset-0 z-0 pointer-events-none opacity-20"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(34, 197, 94, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 197, 94, 0.1) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          maskImage: 'linear-gradient(to bottom, transparent, black 80%)',
+            "linear-gradient(rgba(34, 197, 94, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 197, 94, 0.1) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          maskImage: "linear-gradient(to bottom, transparent, black 80%)",
         }}
       ></div>
 
@@ -28,7 +36,6 @@ export const Footer: React.FC = () => {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-green-900/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12">
-
         {/* Top Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
           <div>
@@ -36,7 +43,8 @@ export const Footer: React.FC = () => {
               Stay Updated
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-tech font-bold text-white leading-tight md:leading-[0.9] tracking-tighter">
-              JOIN THE<br />
+              JOIN THE
+              <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">
                 REVOLUTION
               </span>
@@ -44,23 +52,34 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="lg:pl-12">
-            <h4 className="text-white font-tech font-bold text-lg mb-4">LATEST UPDATES</h4>
+            <h4 className="text-white font-tech font-bold text-lg mb-4">
+              LATEST UPDATES
+            </h4>
             <ul className="space-y-4 text-gray-400 text-sm max-w-md">
               <li>
-                <a href="#" className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors">
-                  <span className="">Pod prototype unveiled — Sep 2025</span>
+                <a
+                  href="#"
+                  className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors"
+                >
+                  <span>Pod prototype unveiled — Sep 2025</span>
                   <ArrowRight size={16} />
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors">
-                  <span className="">Infrastructure plan published — Jul 2025</span>
+                <a
+                  href="#"
+                  className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors"
+                >
+                  <span>Infrastructure plan published — Jul 2025</span>
                   <ArrowRight size={16} />
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors">
-                  <span className="">Open roles: Apply now</span>
+                <a
+                  href="#"
+                  className="flex items-start justify-between gap-4 hover:text-green-400 transition-colors"
+                >
+                  <span>Open roles: Apply now</span>
                   <ArrowRight size={16} />
                 </a>
               </li>
@@ -72,18 +91,21 @@ export const Footer: React.FC = () => {
 
         {/* Middle Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-
           {/* Brand Column */}
           <div className="space-y-6">
             <div className="flex flex-col">
-              <h3 className="text-3xl font-tech font-bold text-white tracking-widest">AVISHKAR</h3>
+              <h3 className="text-3xl font-tech font-bold text-white tracking-widest">
+                AVISHKAR
+              </h3>
               <span className="text-[10px] font-tech tracking-[0.6em] text-green-500 uppercase">
                 Hyperloop
               </span>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">
-              Center for Innovation<br />
-              IIT Madras, Chennai<br />
+              Center for Innovation
+              <br />
+              IIT Madras, Chennai
+              <br />
               Tamil Nadu, India - 600036
             </p>
             <a
@@ -96,34 +118,54 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-tech font-bold text-lg mb-6">EXPLORE</h4>
+            <h4 className="text-white font-tech font-bold text-lg mb-6">
+              EXPLORE
+            </h4>
             <ul className="space-y-4 text-gray-400 text-sm font-tech tracking-wider">
-              {['Home', 'Pod', 'Infrastructure', 'Media', 'Team', 'Partners'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="hover:text-green-400 hover:translate-x-2 transition-all block relative group">
-                    <span className="absolute left-[-10px] opacity-0 group-hover:opacity-100 text-green-500 transition-opacity">
-                      ›
-                    </span>
-                    {item}
-                  </a>
-                </li>
-              ))}
+              {["Home", "Pod", "Infrastructure", "Media", "Team", "Partners"].map(
+                (item) => (
+                  <li key={item}>
+                    <a
+                      href="#"
+                      className="hover:text-green-400 hover:translate-x-2 transition-all block relative group"
+                    >
+                      <span className="absolute left-[-10px] opacity-0 group-hover:opacity-100 text-green-500 transition-opacity">
+                        ›
+                      </span>
+                      {item}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
 
           {/* Socials */}
           <div>
-            <h4 className="text-white font-tech font-bold text-lg mb-6">CONNECT</h4>
+            <h4 className="text-white font-tech font-bold text-lg mb-6">
+              CONNECT
+            </h4>
             <div className="flex flex-wrap gap-4">
               {[
-                { icon: Linkedin, href: '#' },
-                { icon: Instagram, href: '#' },
-                { icon: Twitter, href: '#' },
-                // { icon: Github, href: '#' },
+                {
+                  icon: Linkedin,
+                  href: "https://www.linkedin.com/company/avishkarhyperloop/",
+                }, // [web:2]
+                {
+                  icon: Instagram,
+                  href: "https://www.instagram.com/avishkarhyperloop/",
+                }, // handle inferred from official IG reel presence [web:13]
+                {
+                  icon: Twitter,
+                  href: "https://x.com/avishkar_loop",
+                }, // official X handle [web:10]
+               
               ].map((social, idx) => (
                 <a
                   key={idx}
                   href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
                   className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-gray-400 hover:text-green-500 hover:border-green-500/50 hover:bg-green-500/10 hover:scale-110 transition-all duration-300"
                 >
                   <social.icon size={20} />
@@ -147,7 +189,10 @@ export const Footer: React.FC = () => {
 
             <div className="absolute top-2 right-4 z-10">
               <div className="flex items-center gap-2 text-green-600 font-bold font-tech">
-                <MapPin size={16} className="text-green-500 fill-green-500 animate-bounce" />
+                <MapPin
+                  size={16}
+                  className="text-green-500 fill-green-500 animate-bounce"
+                />
                 IIT MADRAS
               </div>
             </div>
@@ -163,10 +208,16 @@ export const Footer: React.FC = () => {
           </p>
 
           <div className="flex items-center gap-8">
-            <a href="#" className="text-gray-600 text-xs hover:text-white transition-colors uppercase font-tech tracking-widest">
+            <a
+              href="#"
+              className="text-gray-600 text-xs hover:text-white transition-colors uppercase font-tech tracking-widest"
+            >
               Privacy Policy
             </a>
-            <a href="#" className="text-gray-600 text-xs hover:text-white transition-colors uppercase font-tech tracking-widest">
+            <a
+              href="#"
+              className="text-gray-600 text-xs hover:text-white transition-colors uppercase font-tech tracking-widest"
+            >
               Terms of Use
             </a>
 

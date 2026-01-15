@@ -29,7 +29,7 @@ export default function PodModelCanvas({ url }: PodModelProps) {
   return (
     <Canvas
       key={url}
-      camera={{ position: [0, 1.2, 3.2], fov: 45 }}
+      camera={{ position: [0, 1.2, 3.2], fov: 55 }}
       dpr={[1, 1.6]} // cap DPR for performance
     >
       {/* Lights – kept minimal for performance */}

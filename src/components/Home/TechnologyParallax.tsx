@@ -1,19 +1,63 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   MotionValue,
+  AnimatePresence,
 } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useProgress, Html } from "@react-three/drei";
 import * as THREE from "three";
-import { Zap, Magnet, Wind, Cpu } from "lucide-react";
+import { Zap, Magnet, Wind, Cpu, Loader2 } from "lucide-react";
 
 /* ======================================================
-   TEXT DATA
+   NEW: 3D MODEL LOADER COMPONENT
+====================================================== */
+function ModelLoader() {
+  const { progress } = useProgress();
+  
+  return (
+    <Html center>
+      <div className="flex flex-col items-center justify-center w-64 text-emerald-500 font-tech">
+        {/* Animated Scanner Ring */}
+        <div className="relative w-20 h-20 mb-6">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+            className="absolute inset-0 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full"
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+             <Loader2 size={24} className="animate-spin opacity-50" />
+          </div>
+        </div>
+
+        {/* Diagnostic Text */}
+        <div className="w-full space-y-2">
+          <div className="flex justify-between text-[10px] tracking-[0.2em] uppercase">
+            <span>Mesh_Sync</span>
+            <span>{Math.round(progress)}%</span>
+          </div>
+          <div className="h-[1px] w-full bg-emerald-950 overflow-hidden">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              className="h-full bg-emerald-500 shadow-[0_0_10px_#10b981]"
+            />
+          </div>
+          <p className="text-[8px] text-center opacity-40 animate-pulse tracking-widest mt-2">
+            FETCHING_GEOMETRY_PROTOCOLS...
+          </p>
+        </div>
+      </div>
+    </Html>
+  );
+}
+
+/* ======================================================
+   TEXT DATA (Remains same)
 ====================================================== */
 const TECH_DATA = [
   {
@@ -21,7 +65,7 @@ const TECH_DATA = [
     title: "LINEAR INDUCTION DRIVE",
     subtitle: "CONTACTLESS HIGH-THRUST PROPULSION",
     description:
-      "Garuda’s DSLIM propulsion system induces eddy currents in the aluminium rail to generate thrust without mechanical contact. This enables high reliability and highly efficient acceleration.",
+      "Garuda’s DSLIM propulsion system induces eddy currents in the aluminium rail to generate thrust without mechanical contact.",
     icon: Zap,
   },
   {
@@ -45,46 +89,31 @@ const TECH_DATA = [
     title: "AUTONOMOUS CONTROL SYSTEM",
     subtitle: "REAL-TIME DECISION ENGINE",
     description:
-      "A distributed embedded control layer oversees propulsion, levitation, braking, and telemetry under a real-time OS for maximum stability.",
+      "A distributed embedded control layer oversees propulsion, levitation, braking, and telemetry under a real-time OS.",
     icon: Cpu,
   },
 ];
 
 /* ======================================================
-   ULTRA-SMOOTH ROTATING POD
-   (Always 60FPS, No Lag)
+   POD MODEL (Remains same)
 ====================================================== */
-
 function PodModel() {
   const { scene } = useGLTF("/models/pod-v2.glb");
-  const ref = useRef<THREE.Object3D>(null);
+  const ref = useRef<THREE.Group>(null);
 
   useFrame((state, delta) => {
     if (!ref.current) return;
-
-    // Constant smooth rotation — NO LAG
-    ref.current.rotation.y += delta * 0.6; // 0.6 rad/sec
-
-    // Gentle breathing motion
+    ref.current.rotation.y += delta * 0.6;
     ref.current.position.z = 1 + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-
-    // Slight side float (premium effect)
-    ref.current.position.x =
-      Math.sin(state.clock.elapsedTime * 0.6) * 0.05;
-
-    // Pod always faces clean forward axis
-    ref.current.rotation.x = 0;
+    ref.current.position.x = Math.sin(state.clock.elapsedTime * 0.6) * 0.05;
   });
 
   return <primitive ref={ref} object={scene} scale={0.25} />;
 }
 
-useGLTF.preload("/models/pod-v2.glb");
-
 /* ======================================================
-   TEXT SLIDE
+   TECH SLIDE (Remains same)
 ====================================================== */
-
 function TechSlide({
   item,
   index,
@@ -100,8 +129,6 @@ function TechSlide({
   const start = index * segment;
   const end = start + segment;
 
-  // Define transition points to create a "hold" phase for readability
-  // 20% fade-in, 60% hold, 20% fade-out
   const fadeInPoint = start + segment * 0.2;
   const holdPoint = end - segment * 0.2;
 
@@ -133,11 +160,11 @@ function TechSlide({
           </span>
         </div>
 
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-tech font-bold text-white leading-tight mb-4">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-tech font-bold text-white leading-tight mb-4 uppercase italic">
           {item.title}
         </h2>
 
-        <p className="text-gray-300 text-sm md:text-base leading-relaxed border-l-2 border-emerald-500/40 pl-4 py-3 bg-black/50">
+        <p className="text-gray-300 text-sm md:text-base leading-relaxed border-l-2 border-emerald-500/40 pl-4 py-3 bg-black/50 backdrop-blur-sm">
           {item.description}
         </p>
       </div>
@@ -146,9 +173,8 @@ function TechSlide({
 }
 
 /* ======================================================
-   MAIN COMPONENT — LAG FREE VERSION
+   MAIN EXPORT
 ====================================================== */
-
 export function TechnologyParallax() {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -157,48 +183,49 @@ export function TechnologyParallax() {
     offset: ["start start", "end end"],
   });
 
-  const total = TECH_DATA.length;
-
   return (
     <section
       ref={containerRef}
       className="relative bg-black"
-      style={{ height: `${total * 120}vh` }}
+      style={{ height: `${TECH_DATA.length * 150}vh` }} // Increased height for better scroll feel
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="relative max-w-6xl mx-auto h-full px-6 md:px-12 flex flex-col md:flex-row items-center justify-center gap-10">
+        {/* Background HUD Decor */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+            <div className="absolute top-1/4 left-10 w-32 h-32 border-l border-t border-emerald-500/30" />
+            <div className="absolute bottom-1/4 right-10 w-32 h-32 border-r border-b border-emerald-500/30" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col md:flex-row items-center justify-center gap-10">
 
           {/* LEFT — Rotating Pod */}
-          <div className="relative w-full md:w-2/3 aspect-[4/3] flex items-center justify-center">
-            <div className="absolute inset-0 rounded-3xl bg-[radial-gradient(circle,rgba(34,197,94,0.25),transparent_70%)] blur-2xl opacity-60" />
+          <div className="relative w-full md:w-2/3 aspect-square md:aspect-[4/3] flex items-center justify-center">
+            {/* Ambient Glow */}
+            <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.15),transparent_70%)] blur-3xl opacity-60" />
 
             <Canvas camera={{ position: [0, 0.4, 3], fov: 20 }} dpr={[1, 1.5]}>
               <ambientLight intensity={0.55} />
               <directionalLight position={[2, 3, 3]} intensity={1.0} />
 
-              <React.Suspense fallback={null}>
+              <React.Suspense fallback={<ModelLoader />}>
                 <PodModel />
               </React.Suspense>
             </Canvas>
           </div>
 
           {/* RIGHT — Sliding Text */}
-          <div className="relative w-full md:w-1/2 h-[320px] md:h-[360px]">
+          <div className="relative w-full md:w-1/2 h-[320px] md:h-[400px]">
             {TECH_DATA.map((item, i) => (
               <TechSlide
                 key={item.id}
                 item={item}
                 index={i}
-                total={total}
+                total={TECH_DATA.length}
                 progress={scrollYProgress}
               />
             ))}
           </div>
 
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 text-[10px] font-tech tracking-[0.35em]">
-          SCROLL TO EXPLORE • POD ROTATES SMOOTHLY
         </div>
       </div>
     </section>

@@ -34,16 +34,7 @@ export default function Podpage() {
     <div className="w-full min-h-screen bg-[#050505] pt-20">
       {/* Hangar Hero Section */}
       <section className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1581093588401-fbb0736d9438?q=80&w=2500&auto=format&fit=crop"
-            alt="Hangar Background"
-            className="w-full h-full object-cover opacity-30 grayscale"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-[#050505]" />
-        </div>
+       
 
         {/* Content */}
         <div className="relative z-10 text-center px-6">
