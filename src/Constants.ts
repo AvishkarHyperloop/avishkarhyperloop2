@@ -4,18 +4,18 @@ import { Zap, Magnet, Wind, Box, FileText, Database } from 'lucide-react';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '/' },
-  { label: 'Media', href: '/media' },
   { label: 'Pod', href: '/pod' },
+  { label: 'Media', href: '/media' },
+  { label: 'Team', href: '/team' },
+  { label: 'Subsystems', href: 'subsystems' },
   { label: 'Infrastructure', href: '/infrastructure' },
-  { label: 'Research', href: '/research' },
+  { label: 'Our Partners', href: 'partners' },
+  { label: 'Contact Us', href: 'contact' },
+  // { label: 'Research', href: '/research' },
   // { label: 'Partners', href: '#partners' },
   // { label: 'Blog', href: '#blog' },
-  { label: 'Team', href: '/team' },
   // { label: 'Contact Us', href: '#contact' },
   // { label: 'Ticket Calculator', href: '#calculator' },
-  { label: 'Our Partners', href: 'partners' },
-  // { label: 'Contact Us', href: 'contact' },
-  { label: 'Subsystems', href: 'subsystems' },
 ];
 
 export const FEATURES: Feature[] = [

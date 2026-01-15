@@ -254,48 +254,7 @@ export default function PartnersPage() {
         />
       </div>
 
-      {/* ================= HUD INTERFACE ELEMENTS ================= */}
-      <div className="fixed top-6 left-6 z-50 hidden xl:block">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-col gap-2 font-mono text-[8px] text-green-500/60 uppercase tracking-[0.15em]"
-        >
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border border-green-500/20 rounded backdrop-blur-sm">
-            <Activity size={10} className="text-green-500 animate-pulse" />
-            <span>System: <span className="text-green-400">ONLINE</span></span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border border-green-500/20 rounded backdrop-blur-sm">
-            <Shield size={10} className="text-green-500" />
-            <span>Link: <span className="text-green-400">SECURED</span></span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 border border-green-500/20 rounded backdrop-blur-sm">
-            <Network size={10} className="text-green-500" />
-            <span>Network: <span className="text-green-400">ACTIVE</span></span>
-          </div>
-        </motion.div>
-      </div>
-
-      <div className="fixed bottom-6 right-6 z-50 hidden xl:block">
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.7 }}
-          className="flex flex-col items-end gap-1.5 font-mono text-[8px] text-white/30 uppercase tracking-[0.1em]"
-        >
-          <div className="px-3 py-1.5 bg-black/40 border border-white/10 rounded backdrop-blur-sm">
-            <p>COORD_X: <span className="text-green-400">44.02.12</span></p>
-          </div>
-          <div className="px-3 py-1.5 bg-black/40 border border-white/10 rounded backdrop-blur-sm">
-            <p>REGISTRY_ID: <span className="text-green-400">AV_8.0_HQ</span></p>
-          </div>
-          <div className="px-3 py-1.5 bg-black/40 border border-white/10 rounded backdrop-blur-sm">
-            <p>STATUS: <span className="text-green-400">OPERATIONAL</span></p>
-          </div>
-        </motion.div>
-      </div>
-
+     
       {/* ================= PROGRESS INDICATOR ================= */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-green-600 via-green-400 to-green-600 z-50 origin-left shadow-[0_0_10px_rgba(34,197,94,0.5)]"

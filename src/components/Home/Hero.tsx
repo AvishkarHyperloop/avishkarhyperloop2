@@ -162,8 +162,8 @@ export default function Hero() {
               font-tech font-extrabold text-white
               leading-[0.95]
               tracking-tight
-              text-[clamp(3.2rem,11vw,9rem)]
-              sm:text-[clamp(4.5rem,9vw,9rem)]
+              text-[clamp(3.1rem,10vw,8rem)]
+              sm:text-[clamp(4.2rem,8vw,8rem)]
             "
           >
             HYPERLOOP
