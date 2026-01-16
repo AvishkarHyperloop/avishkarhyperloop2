@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { Play, ChevronRight, MapPin } from "lucide-react";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export const ParallaxSection: React.FC = () => {
@@ -43,13 +44,21 @@ export const ParallaxSection: React.FC = () => {
           }}
         >
           {BG_IMAGES.map((src, index) => (
-            <img
+            <div
               key={src}
-              src={src}
-              alt={`Background ${index + 1}`}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
                 }`}
-            />
+            >
+              <Image
+                src={src}
+                alt={`Background ${index + 1}`}
+                fill
+                priority={index === 0}
+                quality={85}
+                className="object-cover"
+                sizes="100vw"
+              />
+            </div>
           ))}
           <div className="absolute inset-0 bg-gradient-to-r from-[#051a05]/80 via-transparent to-transparent mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 opacity-90" />

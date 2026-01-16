@@ -20,7 +20,7 @@ export default function Hero() {
       // 1. Handle Scroll Parallax via CSS Variables (Zero Re-renders)
       const opacity = Math.max(0, 1 - y / 800);
       const moveY = y * -0.15;
-      
+
       document.documentElement.style.setProperty("--hero-opacity", opacity.toString());
       document.documentElement.style.setProperty("--hero-y", `${moveY}px`);
 
@@ -36,7 +36,7 @@ export default function Hero() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("mousemove", onMouseMove, { passive: true });
-    
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("mousemove", onMouseMove);
@@ -47,15 +47,15 @@ export default function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       const t = Date.now();
-      
+
       // Update text directly without triggering React re-renders
-      if (speedRef.current) 
+      if (speedRef.current)
         speedRef.current.innerText = (1210 + Math.sin(t / 1200) * 6).toFixed(0);
-      if (gapRef.current) 
+      if (gapRef.current)
         gapRef.current.innerText = (15 + Math.sin(t / 900) * 0.3).toFixed(2);
-      if (pressureRef.current) 
+      if (pressureRef.current)
         pressureRef.current.innerText = (0.0012 + Math.sin(t / 1500) * 0.00008).toFixed(4);
-      
+
     }, 150); // Faster updates, but cheaper now!
 
     return () => clearInterval(interval);
@@ -63,10 +63,10 @@ export default function Hero() {
 
   return (
     <section className="relative w-full min-h-screen bg-[#020202] overflow-hidden flex items-center font-tech">
-      
+
       {/* ================= BACKGROUND GRID (GPU Accelerated) ================= */}
       <div className="absolute inset-0 z-0 pointer-events-none perspective-[1600px] will-change-transform">
-        
+
         {/* We use a single CSS variable --hero-opacity to drive all these transforms */}
         <div
           className="absolute inset-0 opacity-[0.06] transition-transform duration-75 ease-out"
@@ -89,10 +89,9 @@ export default function Hero() {
 
         {/* LIGHT VOLUME */}
         <div
-          className="absolute w-[1200px] h-[1200px] rounded-full blur-[180px] pointer-events-none will-change-[left,top]"
+          className="absolute w-[1200px] h-[1200px] rounded-full blur-[180px] pointer-events-none will-change-transform"
           style={{
-            left: "calc(var(--mx, 50%) - 600px)",
-            top: "calc(var(--my, 50%) - 600px)",
+            transform: "translate(calc(var(--mx, 50vw) - 600px), calc(var(--my, 50vh) - 600px))",
             background: "rgba(34,197,94,0.08)",
           }}
         />
@@ -129,11 +128,11 @@ export default function Hero() {
 
       {/* ================= CONTENT ================= */}
       <div className="relative z-10 w-full max-w-7xl px-5 sm:px-10 lg:px-24">
-        <div 
+        <div
           className="max-w-4xl space-y-8 will-change-transform"
-          style={{ 
-            opacity: "var(--hero-opacity, 1)", 
-            transform: "translateY(var(--hero-y, 0px))" 
+          style={{
+            opacity: "var(--hero-opacity, 1)",
+            transform: "translateY(var(--hero-y, 0px))"
           }}
         >
           <div className="inline-flex items-center gap-4 bg-green-500/5 border border-green-500/20 px-4 py-1.5">
@@ -144,7 +143,7 @@ export default function Hero() {
           <h1 className="font-tech font-extrabold text-white leading-[0.92] tracking-tight text-[clamp(2.6rem,12vw,8rem)]">
             <span className="block sm:inline">HYPERLOOP</span>
             <span className="block mt-1 sm:mt-2 font-light text-gray-200">
-              FOR <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-green-400 to-green-500">INDIA</span>
+              FOR <span className="inline-block text-transparent bg-clip-text bg-linear-to-r from-green-300 via-green-400 to-green-500">INDIA</span>
             </span>
           </h1>
 

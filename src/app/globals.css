@@ -39,13 +39,13 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  cursor: auto !important;
-  /* Force default cursor visibility */
+  cursor: none;
+
 }
 
 a,
 button {
-  cursor: pointer !important;
+  cursor: none;
 }
 
 /* Rajdhani headings */
@@ -189,9 +189,11 @@ body.nav-open .team-year-nav {
 html {
   scroll-behavior: smooth;
 }
+
 section {
   scroll-snap-stop: always;
 }
+
 main {
   scroll-snap-type: y mandatory;
 }

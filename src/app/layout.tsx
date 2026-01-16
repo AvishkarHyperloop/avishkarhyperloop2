@@ -5,6 +5,7 @@ import "./globals.css";
 import RootComponent from "./RootComponent";
 
 import SmoothScrolling from "@/components/SmoothScrolling";
+import AnimatedCursor from "@/components/AnimatedCursor";
 
 const rajdhaniFont = Rajdhani({
   variable: "--font-Rajdhani",
@@ -34,6 +35,7 @@ export default function RootLayout({
         className={`${rajdhaniFont.variable} `}
       >
         <SmoothScrolling>
+          <AnimatedCursor />
           <RootComponent>{children}</RootComponent>
         </SmoothScrolling>
       </body>

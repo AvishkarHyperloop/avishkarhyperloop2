@@ -111,7 +111,7 @@ export default function PodShowcase() {
                     <h2 className="text-4xl md:text-5xl font-tech font-bold text-white/90">THE ARCHITECTURE</h2>
                 </div>
 
-                <Canvas dpr={[1, 2]} camera={{ position: [0, 1.5, 8], fov: 45 }} gl={{ antialias: true }}>
+                <Canvas dpr={[1, 1.5]} camera={{ position: [0, 1.5, 8], fov: 45 }} gl={{ antialias: true, powerPreference: "high-performance" }}>
                     <color attach="background" args={['#050505']} />
                     <fog attach="fog" args={['#050505', 5, 20]} />
 
