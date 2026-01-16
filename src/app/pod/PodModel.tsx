@@ -8,11 +8,12 @@ import { Html, OrbitControls, useGLTF } from "@react-three/drei";
 
 type PodModelProps = {
   url: string;
+  inView?: boolean;
 };
 
 /* ================= MODEL ================= */
 
-function PodMesh({ url }: PodModelProps) {
+function PodMesh({ url }: { url: string }) {
   const { scene } = useGLTF(url);
 
   return (
@@ -27,7 +28,7 @@ function PodMesh({ url }: PodModelProps) {
 
 /* ================= CANVAS ================= */
 
-export default function PodModelCanvas({ url }: PodModelProps) {
+export default function PodModelCanvas({ url, inView = true }: PodModelProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [ready, setReady] = useState(false);
   const controls = useRef<any>(null);
@@ -48,12 +49,17 @@ export default function PodModelCanvas({ url }: PodModelProps) {
         </div>
       )}
 
+      {/* 
+         Frameloop 'never' pauses the loop. 
+         We only run it when in layout view to save MASSIVE GPU resources 
+      */}
       <Canvas
+        frameloop={inView ? "always" : "never"}
         camera={{
           position: isMobile ? [0, 1, 4] : [0, 1.2, 3.2],
           fov: isMobile ? 60 : 55,
         }}
-        dpr={1} // clamp DPR (major Chrome/Brave win)
+        dpr={[1, 1.5]} // Allow up to 1.5x for crispness if device supports, but clamp
         gl={{ antialias: true, powerPreference: "high-performance" }}
         onCreated={() => {
           // delay overlay removal to avoid jank
@@ -89,3 +95,4 @@ export default function PodModelCanvas({ url }: PodModelProps) {
     </div>
   );
 }
+

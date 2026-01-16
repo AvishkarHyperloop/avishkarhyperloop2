@@ -15,27 +15,48 @@ export default function Hero() {
   const gapRef = useRef<HTMLSpanElement>(null);
   const pressureRef = useRef<HTMLSpanElement>(null);
 
+  // Animation Refs
+  const contentRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+
   const latestScroll = useRef(0);
-  const latestMouse = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const latestMouse = useRef({ x: 0, y: 0 }); // Initialize at 0
   const rafRunning = useRef(false);
   const lastMouseUpdate = useRef(0);
 
   /* ================= MASTER RAF LOOP ================= */
   useEffect(() => {
+    // Initialize valid mouse position
+    latestMouse.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
     const updateFrame = () => {
       rafRunning.current = false;
 
       const y = latestScroll.current;
-      if (y <= 900) {
-        const opacity = Math.max(0, 1 - y / 800);
-        const moveY = y * -0.15;
 
-        document.documentElement.style.setProperty("--hero-opacity", opacity.toString());
-        document.documentElement.style.setProperty("--hero-y", `${moveY}px`);
+      // Optimize Content Parallax & Opacity
+      if (contentRef.current) {
+        if (y <= 900) {
+          const opacity = Math.max(0, 1 - y / 800);
+          const moveY = y * -0.15;
+          contentRef.current.style.opacity = opacity.toString();
+          contentRef.current.style.transform = `translate3d(0, ${moveY}px, 0)`;
+          contentRef.current.style.willChange = "transform, opacity"; // Hint browser
+        } else {
+          // If scrolled far past, ensure it's hidden to skip paint
+          if (contentRef.current.style.opacity !== '0') {
+            contentRef.current.style.opacity = '0';
+          }
+        }
       }
 
-      document.documentElement.style.setProperty("--mx", `${latestMouse.current.x}px`);
-      document.documentElement.style.setProperty("--my", `${latestMouse.current.y}px`);
+      // Optimize Glow Effect (Mouse Tracking)
+      if (glowRef.current) {
+        const mx = latestMouse.current.x;
+        const my = latestMouse.current.y;
+        // Center the 800x800 div
+        glowRef.current.style.transform = `translate3d(${mx - 400}px, ${my - 400}px, 0)`;
+      }
     };
 
     const requestFrame = () => {
@@ -52,7 +73,7 @@ export default function Hero() {
 
     const onMouseMove = (e: MouseEvent) => {
       const now = performance.now();
-      if (now - lastMouseUpdate.current < 33) return; // 30 FPS cap
+      if (now - lastMouseUpdate.current < 16) return; // 60 FPS cap (smoothed)
 
       lastMouseUpdate.current = now;
       latestMouse.current = { x: e.clientX, y: e.clientY };
@@ -62,6 +83,9 @@ export default function Hero() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("mousemove", onMouseMove, { passive: true });
 
+    // Initial frame
+    requestFrame();
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("mousemove", onMouseMove);
@@ -70,6 +94,7 @@ export default function Hero() {
 
   /* ================= TELEMETRY ================= */
   useEffect(() => {
+    // Reduced frequency to 500ms to reduce main thread load, imperceptible change for this data
     const interval = setInterval(() => {
       const t = Date.now();
 
@@ -81,13 +106,13 @@ export default function Hero() {
 
       if (pressureRef.current)
         pressureRef.current.textContent = (0.0012 + Math.sin(t / 1500) * 0.00008).toFixed(4);
-    }, 300);
+    }, 500);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen bg-[#020202] overflow-hidden flex items-center font-tech">
+    <section className="relative w-full min-h-screen bg-[#020202] overflow-hidden flex items-center font-tech contain-paint">
 
       {/* ================= BACKGROUND ================= */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -98,9 +123,11 @@ export default function Hero() {
 
         {/* GPU-friendly light (no heavy blur) */}
         <div
-          className="absolute w-[800px] h-[800px] rounded-full pointer-events-none will-change-transform opacity-40"
+          ref={glowRef}
+          className="absolute left-0 top-0 w-[800px] h-[800px] rounded-full pointer-events-none will-change-transform opacity-40"
           style={{
-            transform: "translate(calc(var(--mx, 50vw) - 400px), calc(var(--my, 50vh) - 400px))",
+            // Initial position to prevent jump before JS loads
+            transform: "translate3d(calc(50vw - 400px), calc(50vh - 400px), 0)",
             background: "radial-gradient(circle, rgba(34,197,94,0.25) 0%, rgba(34,197,94,0.05) 40%, transparent 70%)",
           }}
         />
@@ -138,10 +165,12 @@ export default function Hero() {
       {/* ================= CONTENT ================= */}
       <div className="relative z-10 w-full max-w-7xl px-5 sm:px-10 lg:px-24">
         <div
-          className="max-w-4xl space-y-8 will-change-transform"
+          ref={contentRef}
+          className="max-w-4xl space-y-8"
           style={{
-            opacity: "var(--hero-opacity, 1)",
-            transform: "translate3d(0,var(--hero-y,0),0)",
+            // Initial state to match computed styles
+            opacity: 1,
+            transform: "translate3d(0,0,0)",
           }}
         >
           <div className="inline-flex items-center gap-4 bg-green-500/5 border border-green-500/20 px-4 py-1.5">
@@ -175,3 +204,4 @@ export default function Hero() {
     </section>
   );
 }
+

@@ -16,21 +16,22 @@ import {
 export default function Podpage() {
   // ✅ Properly typed refs
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const handleScroll = () => {
-      if (rafRef.current !== null) return;
-
-      rafRef.current = requestAnimationFrame(() => {
+      // Use direct transform to avoid style recalc for the whole document
+      if (textRef.current) {
         const scrolled = window.scrollY;
-        document.documentElement.style.setProperty("--scroll-y", `${scrolled}px`);
-        rafRef.current = null;
-      });
+        // Apply transform directly (0.15 factor from original)
+        textRef.current.style.transform = `translate3d(${-scrolled * 0.15}px, 0, 0)`;
+      }
     };
 
+    // Use passive listener for performance
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
@@ -58,9 +59,10 @@ export default function Podpage() {
       {/* BACKGROUND */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div
+          ref={textRef}
           className="absolute top-24 left-0 text-[12rem] md:text-[16rem] font-bold text-white/[0.025] whitespace-nowrap select-none will-change-transform"
           style={{
-            transform: "translate3d(calc(var(--scroll-y, 0) * -0.15px),0,0)",
+            transform: "translate3d(0,0,0)",
           }}
         >
           AVISHKAR HYPERLOOP AVISHKAR HYPERLOOP
@@ -140,3 +142,4 @@ export default function Podpage() {
     </main>
   );
 }
+

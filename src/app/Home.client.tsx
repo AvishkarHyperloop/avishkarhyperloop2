@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 /* 🚨 Disable SSR for animated sections */
 const Hero = dynamic(() => import("@/components/Home/Hero"), {
   ssr: false,
+  loading: () => <section className="w-full min-h-screen bg-[#020202]" />,
 });
 
 const TechnologyParallax = dynamic(

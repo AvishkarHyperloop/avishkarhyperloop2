@@ -21,7 +21,10 @@ export default function PodShowcase() {
 
 function PodSection({ pod, index }: any) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { margin: "-20% 0px -20% 0px", once: true });
+  // Entrance animation (runs once)
+  const hasEntered = useInView(ref, { margin: "-20% 0px -20% 0px", once: true });
+  // Performance optimization (pauses WebGL when off-screen)
+  const isVisible = useInView(ref, { margin: "200px 0px 200px 0px" });
 
   return (
     <section
@@ -38,12 +41,14 @@ function PodSection({ pod, index }: any) {
         {/* MODEL */}
         <motion.div
           initial={{ opacity: 0, x: -80 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
+          animate={hasEntered ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden border border-white/10 bg-black shadow-2xl"
         >
+          {/* Only load/render canvas if it has entered at least once to avoid hydration mismatch or pop-in, 
+              but optimize frameloop with isVisible */}
           {pod.modelUrl ? (
-            <PodModelCanvas url={pod.modelUrl} />
+            <PodModelCanvas url={pod.modelUrl} inView={isVisible} />
           ) : (
             <img
               src={pod.image || "/fallback-pod.jpg"}
@@ -56,7 +61,7 @@ function PodSection({ pod, index }: any) {
         {/* TEXT */}
         <motion.div
           initial={{ opacity: 0, x: 80 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
+          animate={hasEntered ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
           className="flex flex-col gap-6 md:gap-8"
         >
@@ -100,6 +105,7 @@ function PodSection({ pod, index }: any) {
     </section>
   );
 }
+
 
 /* ================= SPEC ================= */
 
