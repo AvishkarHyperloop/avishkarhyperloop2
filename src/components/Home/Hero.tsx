@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { Radio, Wind, Target } from "lucide-react";
+import HyperloopTunnel from "./HyperloopTunnel";
 
 export default function Hero() {
   // Refs for direct DOM manipulation (Performance critical)
@@ -64,28 +65,13 @@ export default function Hero() {
   return (
     <section className="relative w-full min-h-screen bg-[#020202] overflow-hidden flex items-center font-tech">
 
-      {/* ================= BACKGROUND GRID (GPU Accelerated) ================= */}
+      {/* ================= BACKGROUND GRID & EFFECTS ================= */}
       <div className="absolute inset-0 z-0 pointer-events-none perspective-[1600px] will-change-transform">
 
-        {/* We use a single CSS variable --hero-opacity to drive all these transforms */}
-        <div
-          className="absolute inset-0 opacity-[0.06] transition-transform duration-75 ease-out"
-          style={{
-            backgroundImage: "linear-gradient(#22c55e 1px, transparent 1px), linear-gradient(90deg, #22c55e 1px, transparent 1px)",
-            backgroundSize: "140px 140px",
-            transform: `translateZ(-900px) rotateX(80deg) translateY(calc(var(--hero-opacity, 1) * 90px)) scale(4.5)`,
-            filter: "blur(1px)",
-          }}
-        />
+        {/* Radial Vignette for focus */}
+        <div className="absolute inset-0 z-1 bg-[radial-gradient(circle_at_center,transparent_0%,#030303_90%)]" />
 
-        <div
-          className="absolute inset-0 opacity-[0.16] transition-transform duration-75 ease-out"
-          style={{
-            backgroundImage: "linear-gradient(rgba(34,197,94,0.85) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.85) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-            transform: `translateZ(-450px) rotateX(70deg) translateY(calc(var(--hero-opacity, 1) * 60px)) scale(3.2)`,
-          }}
-        />
+        <HyperloopTunnel />
 
         {/* LIGHT VOLUME */}
         <div
