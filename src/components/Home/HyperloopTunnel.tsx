@@ -47,8 +47,21 @@ export default function HyperloopTunnel() {
         };
 
         const handleResize = () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            // Clamp resolution to max 1920px width for 4K optimization
+            const dpr = Math.min(window.devicePixelRatio, 1.5);
+            // Actually, for this effect, 1:1 pixel mapping with clamped max width is better
+            // We'll limit the logic coordinate system to 1920 for consistency
+
+            const clientWidth = window.innerWidth;
+            const clientHeight = window.innerHeight;
+
+            // Limit internal buffer size
+            width = canvas.width = clientWidth > 1920 ? 1920 : clientWidth;
+            height = canvas.height = clientHeight > 1080 ? 1080 : clientHeight;
+
+            // Update style to stretch to full screen if we clamped (CSS scales it up)
+            // canvas.style.width = '100%'; // Already set via class
+
             initParticles(width, height);
         };
 
@@ -63,8 +76,10 @@ export default function HyperloopTunnel() {
             currentMy += (targetMy - currentMy) * 0.05;
 
             // Clear with trail effect
-            ctx.fillStyle = "rgba(3, 3, 3, 0.3)";
+            // Reduce alpha accumulation overhead by using a slightly higher opacity clear
+            ctx.fillStyle = "rgba(3, 3, 3, 0.4)";
             ctx.fillRect(0, 0, width, height);
+
 
             const cx = width / 2 + currentMx * 0.5;
             const cy = height / 2 + currentMy * 0.5;

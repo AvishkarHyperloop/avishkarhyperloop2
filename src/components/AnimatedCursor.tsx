@@ -1,9 +1,7 @@
-'use client';
-import React, { useEffect, useRef, useState } from 'react';
+"use client";
+import React, { useEffect, useRef } from 'react';
 
 export default function AnimatedCursor() {
-    const [isHovering, setIsHovering] = useState(false);
-
     // Use refs for direct DOM manipulation (fastest)
     const cursorDotRef = useRef<HTMLDivElement>(null);
     const cursorRingRef = useRef<HTMLDivElement>(null);
@@ -32,7 +30,16 @@ export default function AnimatedCursor() {
             const target = e.target as HTMLElement;
             // Optimize check: use classList or simple tag checks
             const isLink = target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') !== null || target.closest('button') !== null;
-            setIsHovering(isLink);
+
+            if (cursorRingRef.current) {
+                if (isLink) {
+                    cursorRingRef.current.classList.add('scale-150', 'bg-white/10');
+                    cursorRingRef.current.classList.remove('scale-100');
+                } else {
+                    cursorRingRef.current.classList.remove('scale-150', 'bg-white/10');
+                    cursorRingRef.current.classList.add('scale-100');
+                }
+            }
         };
 
         window.addEventListener('mousemove', onMouseMove, { passive: true });
@@ -73,7 +80,7 @@ export default function AnimatedCursor() {
             {/* Large circle - lags behind slightly */}
             <div
                 ref={cursorRingRef}
-                className={`fixed top-0 left-0 w-8 h-8 rounded-full border border-white pointer-events-none z-[9999] mix-blend-difference will-change-transform transition-transform duration-200 ease-out ${isHovering ? 'scale-150 bg-white/10' : 'scale-100'}`}
+                className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white pointer-events-none z-[9999] mix-blend-difference will-change-transform transition-transform duration-200 ease-out scale-100"
                 style={{ transform: 'translate3d(-100px, -100px, 0)' }}
             />
         </>

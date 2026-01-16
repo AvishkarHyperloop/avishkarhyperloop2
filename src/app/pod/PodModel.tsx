@@ -59,8 +59,8 @@ export default function PodModelCanvas({ url, inView = true }: PodModelProps) {
           position: isMobile ? [0, 1, 4] : [0, 1.2, 3.2],
           fov: isMobile ? 60 : 55,
         }}
-        dpr={[1, 1.5]} // Allow up to 1.5x for crispness if device supports, but clamp
-        gl={{ antialias: true, powerPreference: "high-performance" }}
+        dpr={1} // Strict 1x DPR to fix scroll lag on all devices
+        gl={{ antialias: false, powerPreference: "default", alpha: true }} // Disabling AA is huge for performance
         onCreated={() => {
           // delay overlay removal to avoid jank
           setTimeout(() => setReady(true), 150);
