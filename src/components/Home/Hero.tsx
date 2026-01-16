@@ -2,38 +2,62 @@
 
 import React, { useEffect, useRef } from "react";
 import { Radio, Wind, Target } from "lucide-react";
-import HyperloopTunnel from "./HyperloopTunnel";
+import dynamic from "next/dynamic";
+
+// Lazy load tunnel (huge win)
+const HyperloopTunnel = dynamic(() => import("./HyperloopTunnel"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Hero() {
-  // Refs for direct DOM manipulation (Performance critical)
-  const containerRef = useRef<HTMLDivElement>(null);
   const speedRef = useRef<HTMLSpanElement>(null);
   const gapRef = useRef<HTMLSpanElement>(null);
   const pressureRef = useRef<HTMLSpanElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
-  /* ================= OPTIMIZED SCROLL & MOUSE ================= */
+  const latestScroll = useRef(0);
+  const latestMouse = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const rafRunning = useRef(false);
+  const lastMouseUpdate = useRef(0);
+
+  /* ================= MASTER RAF LOOP ================= */
   useEffect(() => {
-    const handleUpdate = (e?: MouseEvent) => {
-      const y = window.scrollY;
-      if (y > 900) return;
+    const updateFrame = () => {
+      rafRunning.current = false;
 
-      // 1. Handle Scroll Parallax via CSS Variables (Zero Re-renders)
-      const opacity = Math.max(0, 1 - y / 800);
-      const moveY = y * -0.15;
+      const y = latestScroll.current;
+      if (y <= 900) {
+        const opacity = Math.max(0, 1 - y / 800);
+        const moveY = y * -0.15;
 
-      document.documentElement.style.setProperty("--hero-opacity", opacity.toString());
-      document.documentElement.style.setProperty("--hero-y", `${moveY}px`);
+        document.documentElement.style.setProperty("--hero-opacity", opacity.toString());
+        document.documentElement.style.setProperty("--hero-y", `${moveY}px`);
+      }
 
-      // 2. Handle Mouse Position
-      if (e) {
-        document.documentElement.style.setProperty("--mx", `${e.clientX}px`);
-        document.documentElement.style.setProperty("--my", `${e.clientY}px`);
+      document.documentElement.style.setProperty("--mx", `${latestMouse.current.x}px`);
+      document.documentElement.style.setProperty("--my", `${latestMouse.current.y}px`);
+    };
+
+    const requestFrame = () => {
+      if (!rafRunning.current) {
+        rafRunning.current = true;
+        requestAnimationFrame(updateFrame);
       }
     };
 
-    const onScroll = () => requestAnimationFrame(() => handleUpdate());
-    const onMouseMove = (e: MouseEvent) => requestAnimationFrame(() => handleUpdate(e));
+    const onScroll = () => {
+      latestScroll.current = window.scrollY;
+      requestFrame();
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastMouseUpdate.current < 33) return; // 30 FPS cap
+
+      lastMouseUpdate.current = now;
+      latestMouse.current = { x: e.clientX, y: e.clientY };
+      requestFrame();
+    };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("mousemove", onMouseMove, { passive: true });
@@ -44,20 +68,20 @@ export default function Hero() {
     };
   }, []);
 
-  /* ================= OPTIMIZED TELEMETRY (Direct DOM) ================= */
+  /* ================= TELEMETRY ================= */
   useEffect(() => {
     const interval = setInterval(() => {
       const t = Date.now();
 
-      // Update text directly without triggering React re-renders
       if (speedRef.current)
-        speedRef.current.innerText = (1210 + Math.sin(t / 1200) * 6).toFixed(0);
-      if (gapRef.current)
-        gapRef.current.innerText = (15 + Math.sin(t / 900) * 0.3).toFixed(2);
-      if (pressureRef.current)
-        pressureRef.current.innerText = (0.0012 + Math.sin(t / 1500) * 0.00008).toFixed(4);
+        speedRef.current.textContent = (1210 + Math.sin(t / 1200) * 6).toFixed(0);
 
-    }, 150); // Faster updates, but cheaper now!
+      if (gapRef.current)
+        gapRef.current.textContent = (15 + Math.sin(t / 900) * 0.3).toFixed(2);
+
+      if (pressureRef.current)
+        pressureRef.current.textContent = (0.0012 + Math.sin(t / 1500) * 0.00008).toFixed(4);
+    }, 300);
 
     return () => clearInterval(interval);
   }, []);
@@ -65,20 +89,19 @@ export default function Hero() {
   return (
     <section className="relative w-full min-h-screen bg-[#020202] overflow-hidden flex items-center font-tech">
 
-      {/* ================= BACKGROUND GRID & EFFECTS ================= */}
-      <div className="absolute inset-0 z-0 pointer-events-none perspective-[1600px] will-change-transform">
+      {/* ================= BACKGROUND ================= */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
 
-        {/* Radial Vignette for focus */}
-        <div className="absolute inset-0 z-1 bg-[radial-gradient(circle_at_center,transparent_0%,#030303_90%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030303_90%)]" />
 
         <HyperloopTunnel />
 
-        {/* LIGHT VOLUME */}
+        {/* GPU-friendly light (no heavy blur) */}
         <div
-          className="absolute w-[1200px] h-[1200px] rounded-full blur-[180px] pointer-events-none will-change-transform"
+          className="absolute w-[800px] h-[800px] rounded-full pointer-events-none will-change-transform opacity-40"
           style={{
-            transform: "translate(calc(var(--mx, 50vw) - 600px), calc(var(--my, 50vh) - 600px))",
-            background: "rgba(34,197,94,0.08)",
+            transform: "translate(calc(var(--mx, 50vw) - 400px), calc(var(--my, 50vh) - 400px))",
+            background: "radial-gradient(circle, rgba(34,197,94,0.25) 0%, rgba(34,197,94,0.05) 40%, transparent 70%)",
           }}
         />
       </div>
@@ -118,18 +141,20 @@ export default function Hero() {
           className="max-w-4xl space-y-8 will-change-transform"
           style={{
             opacity: "var(--hero-opacity, 1)",
-            transform: "translateY(var(--hero-y, 0px))"
+            transform: "translate3d(0,var(--hero-y,0),0)",
           }}
         >
           <div className="inline-flex items-center gap-4 bg-green-500/5 border border-green-500/20 px-4 py-1.5">
             <Radio size={12} className="text-green-500 animate-pulse" />
-            <span className="text-green-400 uppercase tracking-[0.45em] text-[10px]">Engineering India's Future</span>
+            <span className="text-green-400 uppercase tracking-[0.45em] text-[10px]">
+              Engineering India's Future
+            </span>
           </div>
 
           <h1 className="font-tech font-extrabold text-white leading-[0.92] tracking-tight text-[clamp(2.6rem,12vw,8rem)]">
-            <span className="block sm:inline">HYPERLOOP</span>
-            <span className="block mt-1 sm:mt-2 font-light text-gray-200">
-              FOR <span className="inline-block text-transparent bg-clip-text bg-linear-to-r from-green-300 via-green-400 to-green-500">INDIA</span>
+            HYPERLOOP
+            <span className="block mt-2 font-light text-gray-200">
+              FOR <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-green-400 to-green-500">INDIA</span>
             </span>
           </h1>
 
@@ -138,7 +163,7 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-4 pt-4">
-            <button className="px-10 py-5 bg-green-500 text-black font-bold tracking-[0.2em] text-xs uppercase hover:scale-105 transition-all">
+            <button className="px-10 py-5 bg-green-500 text-black font-bold tracking-[0.2em] text-xs uppercase hover:scale-105 transition-transform">
               Launch Console
             </button>
             <button className="px-10 py-5 border border-white/20 text-white font-bold tracking-[0.2em] text-xs uppercase hover:bg-white/5 transition-colors">
