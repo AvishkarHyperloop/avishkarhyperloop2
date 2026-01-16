@@ -4,15 +4,23 @@ import React, { useEffect, useRef } from "react";
 
 export default function HyperloopTunnel() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
+        const container = containerRef.current;
+        if (!canvas || !container) return;
+
+        const ctx = canvas.getContext("2d", {
+            alpha: true,
+            desynchronized: true, // Hint for lower latency
+        });
         if (!ctx) return;
 
-        let width = (canvas.width = window.innerWidth);
-        let height = (canvas.height = window.innerHeight);
+        let width = 0;
+        let height = 0;
+        let animationId = 0;
+        let isVisible = true;
 
         // Mouse State
         let targetMx = 0;
@@ -23,86 +31,129 @@ export default function HyperloopTunnel() {
         // Particle Configuration
         const particleCount = 400;
         const speed = 25;
-        const particles: { x: number; y: number; z: number; o: number }[] = [];
 
-        // Initialize particles
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: (Math.random() - 0.5) * width,
-                y: (Math.random() - 0.5) * height,
-                z: Math.random() * width,
-                o: Math.random() // offset for varied lengths
-            });
-        }
+        // Float32Array for better memory layout: [x, y, z, offset]
+        const particles = new Float32Array(particleCount * 4);
 
-        const draw = () => {
-            // Lerp mouse position for smooth effect
-            currentMx += (targetMx - currentMx) * 0.05;
-            currentMy += (targetMy - currentMy) * 0.05;
-
-            // Create trailing effect
-            ctx.fillStyle = "rgba(3, 3, 3, 0.3)";
-            ctx.fillRect(0, 0, width, height);
-
-            // Dynamic Vanishing Point (Opposite to mouse movement for parallax feel)
-            const cx = width / 2 + currentMx * 0.5;
-            const cy = height / 2 + currentMy * 0.5;
-
+        // Init function
+        const initParticles = (w: number, h: number) => {
             for (let i = 0; i < particleCount; i++) {
-                let p = particles[i];
-
-                // Move particle towards viewer
-                p.z -= speed;
-
-                // Reset if behind viewer
-                if (p.z <= 0) {
-                    p.x = (Math.random() - 0.5) * width;
-                    p.y = (Math.random() - 0.5) * height;
-                    p.z = width;
-                }
-
-                // Project 3D to 2D
-                const k = 250 / p.z; // Perspective scale
-                const x2d = cx + p.x * k;
-                const y2d = cy + p.y * k;
-
-                // Only draw if within bounds (optimization)
-                if (x2d >= 0 && x2d <= width && y2d >= 0 && y2d <= height) {
-                    // Determine size and alpha based on depth
-                    const size = (1 - p.z / width) * 3;
-                    const alpha = (1 - p.z / width);
-
-                    ctx.beginPath();
-                    ctx.fillStyle = `rgba(34, 197, 94, ${alpha})`; // Green-500
-                    ctx.arc(x2d, y2d, size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+                const i4 = i * 4;
+                particles[i4] = (Math.random() - 0.5) * w;     // x
+                particles[i4 + 1] = (Math.random() - 0.5) * h; // y
+                particles[i4 + 2] = Math.random() * w;         // z
+                particles[i4 + 3] = Math.random();             // offset
             }
-            requestAnimationFrame(draw);
         };
 
         const handleResize = () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
+            initParticles(width, height);
         };
 
+        // Initial setup
+        handleResize();
+
+        const draw = () => {
+            if (!isVisible) return; // Stop drawing if not visible
+
+            // Lerp mouse
+            currentMx += (targetMx - currentMx) * 0.05;
+            currentMy += (targetMy - currentMy) * 0.05;
+
+            // Clear with trail effect
+            ctx.fillStyle = "rgba(3, 3, 3, 0.3)";
+            ctx.fillRect(0, 0, width, height);
+
+            const cx = width / 2 + currentMx * 0.5;
+            const cy = height / 2 + currentMy * 0.5;
+
+            // Batch drawing? 
+            // Since color (alpha) changes per particle, we can't fully batch without advanced packing.
+            // But we can avoid object creation.
+
+            for (let i = 0; i < particleCount; i++) {
+                const i4 = i * 4;
+                let x = particles[i4];
+                let y = particles[i4 + 1];
+                let z = particles[i4 + 2];
+
+                // Move
+                z -= speed;
+
+                // Reset
+                if (z <= 0) {
+                    x = particles[i4] = (Math.random() - 0.5) * width;
+                    y = particles[i4 + 1] = (Math.random() - 0.5) * height;
+                    z = particles[i4 + 2] = width;
+                } else {
+                    particles[i4 + 2] = z;
+                }
+
+                // Project
+                const k = 250 / z;
+                const x2d = cx + x * k;
+                const y2d = cy + y * k;
+
+                if (x2d >= 0 && x2d <= width && y2d >= 0 && y2d <= height) {
+                    const size = (1 - z / width) * 3;
+                    const alpha = (1 - z / width);
+
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(34, 197, 94, ${alpha})`;
+                    ctx.arc(x2d, y2d, size, 0, 6.283); // constants are faster
+                    ctx.fill();
+                }
+            }
+
+            animationId = requestAnimationFrame(draw);
+        };
+
+        // Events
         const handleMouseMove = (e: MouseEvent) => {
-            // Normalize mouse position (-0.5 to 0.5)
             targetMx = (e.clientX / width - 0.5) * width;
             targetMy = (e.clientY / height - 0.5) * height;
         };
 
-        const animationId = requestAnimationFrame(draw);
-        window.addEventListener("resize", handleResize);
-        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("resize", handleResize, { passive: true });
+        window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+        // Internal Intersection Observer to start/stop loop
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                isVisible = entry.isIntersecting;
+                if (isVisible) {
+                    // Restart loop if it was stopped
+                    cancelAnimationFrame(animationId);
+                    draw();
+                } else {
+                    cancelAnimationFrame(animationId);
+                }
+            },
+            { threshold: 0 }
+        );
+
+        observer.observe(container);
+
+        // Initial start
+        draw();
 
         return () => {
             cancelAnimationFrame(animationId);
             window.removeEventListener("resize", handleResize);
             window.removeEventListener("mousemove", handleMouseMove);
+            observer.disconnect();
         };
-
     }, []);
 
-    return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-40 mix-blend-screen pointer-events-none" />;
+    return (
+        <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none">
+            <canvas
+                ref={canvasRef}
+                className="w-full h-full opacity-40 mix-blend-screen"
+            />
+        </div>
+    );
 }
+

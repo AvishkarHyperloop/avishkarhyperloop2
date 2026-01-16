@@ -1,74 +1,82 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function AnimatedCursor() {
     const [isHovering, setIsHovering] = useState(false);
-    const cursorX = useMotionValue(-100);
-    const cursorY = useMotionValue(-100);
 
-    const springConfig = { damping: 25, stiffness: 120 };
-    const cursorXSpring = useSpring(cursorX, springConfig);
-    const cursorYSpring = useSpring(cursorY, springConfig);
+    // Use refs for direct DOM manipulation (fastest)
+    const cursorDotRef = useRef<HTMLDivElement>(null);
+    const cursorRingRef = useRef<HTMLDivElement>(null);
+
+    // State in refs to avoid re-renders
+    const mouse = useRef({ x: -100, y: -100 });
+    const ringPos = useRef({ x: -100, y: -100 });
+    const rafId = useRef<number>(0);
 
     useEffect(() => {
-        const moveCursor = (e: MouseEvent) => {
-            cursorX.set(e.clientX);
-            cursorY.set(e.clientY);
-        };
+        // Initial position off-screen
+        mouse.current = { x: -100, y: -100 };
+        ringPos.current = { x: -100, y: -100 };
 
-        const handleMouseOver = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            if (
-                target.tagName === 'A' ||
-                target.tagName === 'BUTTON' ||
-                target.closest('a') ||
-                target.closest('button') ||
-                target.style.cursor === 'pointer'
-            ) {
-                setIsHovering(true);
-            } else {
-                setIsHovering(false);
+        const onMouseMove = (e: MouseEvent) => {
+            mouse.current.x = e.clientX;
+            mouse.current.y = e.clientY;
+
+            // Direct update for the dot (instant)
+            if (cursorDotRef.current) {
+                cursorDotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
             }
         };
 
-        window.addEventListener('mousemove', moveCursor);
-        window.addEventListener('mouseover', handleMouseOver);
+        const onMouseOver = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            // Optimize check: use classList or simple tag checks
+            const isLink = target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') !== null || target.closest('button') !== null;
+            setIsHovering(isLink);
+        };
+
+        window.addEventListener('mousemove', onMouseMove, { passive: true });
+        window.addEventListener('mouseover', onMouseOver, { passive: true });
+
+        // Animation Loop for Ring (Lerp > Spring for performance)
+        const loop = () => {
+            // Lerp factor (0.15 = smooth lag)
+            const dx = mouse.current.x - ringPos.current.x;
+            const dy = mouse.current.y - ringPos.current.y;
+
+            ringPos.current.x += dx * 0.15;
+            ringPos.current.y += dy * 0.15;
+
+            if (cursorRingRef.current) {
+                cursorRingRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`;
+            }
+
+            rafId.current = requestAnimationFrame(loop);
+        };
+        loop();
 
         return () => {
-            window.removeEventListener('mousemove', moveCursor);
-            window.removeEventListener('mouseover', handleMouseOver);
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseover', onMouseOver);
+            cancelAnimationFrame(rafId.current);
         };
-    }, [cursorX, cursorY]);
+    }, []);
 
     return (
         <>
             {/* Small dot - standard cursor position */}
-            <motion.div
-                className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-9999 mix-blend-difference"
-                style={{
-                    translateX: cursorX,
-                    translateY: cursorY,
-                    x: '-50%',
-                    y: '-50%',
-                }}
+            <div
+                ref={cursorDotRef}
+                className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference will-change-transform"
+                style={{ transform: 'translate3d(-100px, -100px, 0)' }}
             />
             {/* Large circle - lags behind slightly */}
-            <motion.div
-                className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white pointer-events-none z-9999 mix-blend-difference"
-                style={{
-                    translateX: cursorXSpring,
-                    translateY: cursorYSpring,
-                    x: '-50%',
-                    y: '-50%',
-                }}
-                animate={{
-                    scale: isHovering ? 1.5 : 1,
-                }}
-                transition={{
-                    scale: { duration: 0.2 }
-                }}
+            <div
+                ref={cursorRingRef}
+                className={`fixed top-0 left-0 w-8 h-8 rounded-full border border-white pointer-events-none z-[9999] mix-blend-difference will-change-transform transition-transform duration-200 ease-out ${isHovering ? 'scale-150 bg-white/10' : 'scale-100'}`}
+                style={{ transform: 'translate3d(-100px, -100px, 0)' }}
             />
         </>
     );
 }
+
