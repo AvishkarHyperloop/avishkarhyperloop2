@@ -5,7 +5,7 @@ export default function AnimatedCursor() {
     // Use refs for direct DOM manipulation (fastest)
     const cursorDotRef = useRef<HTMLDivElement>(null);
     const cursorRingRef = useRef<HTMLDivElement>(null);
-
+   
     // State in refs to avoid re-renders
     const mouse = useRef({ x: -100, y: -100 });
     const ringPos = useRef({ x: -100, y: -100 });

@@ -189,7 +189,7 @@ export const PARTNER_LOGOS = [
   { id: 4, name: "Indian Railways", url: "/partners/IndianRailways.png" },
   { id: 5, name: "Wabtec", url: "/partners/wabtec.png" },
   { id: 6, name: "Harting", url: "/partners/Harting.png.png" },
-  { id: 7, name: "Ansys", url: "/partners/ansys.png" },
+  { id: 7, name: "Ansys", url: "/partners/image.png" },
   { id: 8, name: "Vector", url: "/partners/vector.png" },
   { id: 9, name: "Swagelok", url: "/partners/swagelok.png" },
   { id: 10, name: "Aditya Birla (Hindalco)", url: "/partners/Hindalco.png" },
