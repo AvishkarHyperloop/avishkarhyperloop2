@@ -117,7 +117,7 @@ export const Footer: React.FC = () => {
               href="mailto:contact@avishkarhyperloop.com"
               className="inline-flex items-center gap-2 text-white hover:text-green-400 transition-colors text-sm"
             >
-              <Mail size={16} /> contact@avishkarhyperloop.com
+              <Mail size={16} /> avishkarhyperloop@smail.iitm.ac.in
             </a>
           </div>
 

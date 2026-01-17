@@ -1,7 +1,7 @@
-import React from 'react';
 import { PARTNER_LOGOS } from '../../Constants';
+import Image from "next/image";
 
-export const Partners: React.FC = () => {
+export const Partners = () => {
   return (
     <section
       id="partners"
@@ -24,11 +24,13 @@ export const Partners: React.FC = () => {
               key={partner.id}
               className="w-32 md:w-40 flex flex-col items-center justify-center space-y-2 opacity-80 hover:opacity-100 transition-all duration-500"
             >
-              <div className="w-full h-16 md:h-20 flex items-center justify-center">
-                <img
+              <div className="relative w-full h-16 md:h-20 flex items-center justify-center">
+                <Image
                   src={partner.url}
                   alt={partner.name}
-                  className="w-full h-full object-contain"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 128px, 160px"
                 />
               </div>
               <p className="text-xs md:text-sm text-gray-300">
@@ -43,11 +45,13 @@ export const Partners: React.FC = () => {
               key={`dup-${partner.id}`}
               className="w-32 md:w-40 flex flex-col items-center justify-center space-y-2 opacity-80 hover:opacity-100 transition-all duration-500"
             >
-              <div className="w-full h-16 md:h-20 flex items-center justify-center">
-                <img
+              <div className="relative w-full h-16 md:h-20 flex items-center justify-center">
+                <Image
                   src={partner.url}
                   alt={partner.name}
-                  className="w-full h-full object-contain"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 128px, 160px"
                 />
               </div>
               <p className="text-xs md:text-sm text-gray-300">
@@ -62,19 +66,6 @@ export const Partners: React.FC = () => {
         <div className="absolute top-0 right-0 w-24 md:w-48 h-full bg-gradient-to-l from-black to-transparent z-10" />
       </div>
 
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          /* slower than before (was 30s) */
-          animation: marquee 55s linear infinite;
-        }
-        .group:hover .animate-marquee {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   );
 };

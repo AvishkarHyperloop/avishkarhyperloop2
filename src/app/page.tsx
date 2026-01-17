@@ -1,6 +1,9 @@
 
 import { Metadata } from "next";
-import Home from "./Home.client";
+import Hero from "@/components/Home/Hero";
+import { TechnologyParallax } from "@/components/Home/TechnologyParallax";
+import { ParallaxSection } from "@/components/Home/ParallaxSection";
+import { Partners } from "@/components/Home/Partners";
 
 export const metadata: Metadata = {
   title: "Avishkar Hyperloop | IIT Madras",
@@ -8,6 +11,23 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return  <Home />;
+  return (
+    <>
+      <section>
+        <Hero />
+      </section>
 
+      <section>
+        <TechnologyParallax />
+      </section>
+
+      <section>
+        <ParallaxSection />
+      </section>
+
+      <section>
+        <Partners />
+      </section>
+    </>
+  );
 }

@@ -197,3 +197,23 @@ section {
 main {
   scroll-snap-type: y mandatory;
 }
+
+/* Global Animations */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee {
+  animation: ticker 55s linear infinite;
+  will-change: transform;
+}
+
+.group:hover .animate-marquee {
+  animation-play-state: paused;
+}
