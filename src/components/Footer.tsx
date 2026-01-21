@@ -212,18 +212,16 @@ export const Footer: React.FC = () => {
           </p>
 
           <div className="flex items-center gap-8">
-            <a
-              href="#"
-              className="text-gray-600 text-xs hover:text-white transition-colors uppercase font-tech tracking-widest"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#"
-              className="text-gray-600 text-xs hover:text-white transition-colors uppercase font-tech tracking-widest"
-            >
-              Terms of Use
-            </a>
+           <a 
+  href="https://thrivlabs.in"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-gray-600 text-xs hover:text-white transition-colors uppercase font-tech tracking-widest"
+>
+  Designed and Developed by <span className="text-green-600">ThrivLabs</span> 
+</a>
+
+            
 
             {/* Back to Top */}
             <button
