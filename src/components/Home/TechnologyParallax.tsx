@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   MotionValue,
-  AnimatePresence,
 } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, useProgress, Html } from "@react-three/drei";
@@ -95,10 +94,10 @@ const TECH_DATA = [
 ];
 
 /* ======================================================
-   POD MODEL (Remains same)
+   POD MODEL 
 ====================================================== */
 function PodModel() {
-  const { scene } = useGLTF("/models/pod-v2.glb");
+  const { scene } = useGLTF("/models/pod-v2.glb", "/draco/");
   const ref = useRef<THREE.Group>(null);
 
   useFrame((state, delta) => {
@@ -110,6 +109,8 @@ function PodModel() {
 
   return <primitive ref={ref} object={scene} scale={0.25} />;
 }
+
+useGLTF.preload("/models/pod-v2.glb", "/draco/");
 
 /* ======================================================
    TECH SLIDE (Remains same)
@@ -203,7 +204,11 @@ export function TechnologyParallax() {
             {/* Ambient Glow */}
             <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.15),transparent_70%)] blur-3xl opacity-60" />
 
-            <Canvas camera={{ position: [0, 0.4, 3], fov: 20 }} dpr={[1, 1.5]}>
+            <Canvas
+              camera={{ position: [0, 0.4, 3], fov: 20 }}
+              dpr={1}
+              gl={{ antialias: false, powerPreference: "default" }}
+            >
               <ambientLight intensity={0.55} />
               <directionalLight position={[2, 3, 3]} intensity={1.0} />
 

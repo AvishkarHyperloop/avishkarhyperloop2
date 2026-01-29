@@ -3,6 +3,7 @@
 import React, { useEffect, useState, Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Html, OrbitControls, useGLTF } from "@react-three/drei";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 /* ================= TYPES ================= */
 
@@ -14,7 +15,7 @@ type PodModelProps = {
 /* ================= MODEL ================= */
 
 function PodMesh({ url }: { url: string }) {
-  const { scene } = useGLTF(url);
+  const { scene } = useGLTF(url, "/draco/");
 
   return (
     <primitive
@@ -31,12 +32,27 @@ function PodMesh({ url }: { url: string }) {
 export default function PodModelCanvas({ url, inView = true }: PodModelProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [ready, setReady] = useState(false);
-  const controls = useRef<any>(null);
+  const controls = useRef<OrbitControlsImpl | null>(null);
 
   /* ===== DEVICE CHECK (RUNS ONCE) ===== */
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mq.matches);
+
+    update();
+
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", update);
+      return () => mq.removeEventListener("change", update);
+    }
+
+    mq.addListener(update);
+    return () => mq.removeListener(update);
   }, []);
+
+  useEffect(() => {
+    useGLTF.preload(url, "/draco/");
+  }, [url]);
 
   return (
     <div className="relative w-full h-[320px] sm:h-[420px] md:h-[520px]">

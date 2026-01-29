@@ -21,7 +21,7 @@ export const ParallaxSection: React.FC = () => {
   const BG_IMAGES = [
     "/media/image8.JPG",
     "/media/image5.jpeg",
-    "/media/image1.jpg"
+    // "/media/image1.jpg"
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

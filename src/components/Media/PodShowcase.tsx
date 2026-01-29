@@ -17,7 +17,7 @@ const images = [
 ];
 
 function PodModel({ scale = [1, 1, 1] }: { scale?: number[] }) {
-    const { scene } = useGLTF('/models/pod-v2.glb');
+    const { scene } = useGLTF('/models/pod-v2.glb', '/draco/');
     return <primitive object={scene} scale={scale} />;
 }
 
@@ -111,7 +111,11 @@ export default function PodShowcase() {
                     <h2 className="text-4xl md:text-5xl font-tech font-bold text-white/90">THE ARCHITECTURE</h2>
                 </div>
 
-                <Canvas dpr={[1, 1.5]} camera={{ position: [0, 1.5, 8], fov: 45 }} gl={{ antialias: true, powerPreference: "high-performance" }}>
+                <Canvas
+                    dpr={1}
+                    camera={{ position: [0, 1.5, 8], fov: 45 }}
+                    gl={{ antialias: false, powerPreference: "default" }}
+                >
                     <color attach="background" args={['#050505']} />
                     <fog attach="fog" args={['#050505', 5, 20]} />
 
@@ -126,8 +130,7 @@ export default function PodShowcase() {
                     <OrbitControls
                         enableZoom={false}
                         enablePan={false}
-                        enableDamping
-                        dampingFactor={0.05}
+                        enableDamping={false}
                         rotateSpeed={0.5}
                         maxPolarAngle={Math.PI / 2 + 0.2} // Limit vertical rotation slightly
                         minPolarAngle={Math.PI / 2 - 0.2}
@@ -142,4 +145,4 @@ export default function PodShowcase() {
     )
 }
 
-useGLTF.preload('/models/pod-v2.glb');
+useGLTF.preload('/models/pod-v2.glb', '/draco/');
